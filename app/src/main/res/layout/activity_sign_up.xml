@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/signUp_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
+        app:cardBackgroundColor="@color/cardview_shadow_start_color"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/signUp_til_username"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signUp_tiet_username"
+                    style="@style/TietTextColor.BackgroundColor"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_baseline_person_24"
+                    android:hint="@string/nume_utilizator_signUp"
+                    android:padding="20dp"
+                    android:textSize="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/signUp_til_email"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signUp_tiet_email"
+                    style="@style/TietTextColor.BackgroundColor"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_baseline_privacy_tip_24"
+                    android:hint="Email"
+                    android:padding="20dp"
+                    android:textSize="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/signUp_til_parola"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signUp_tiet_parola"
+
+                    style="@style/TietTextColor.BackgroundColor"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_baseline_remove_red_eye_24"
+
+                    android:hint="Parola"
+                    android:inputType="numberPassword"
+                    android:padding="20dp"
+                    android:textSize="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/signUp_btn_inregistrare"
+                style="@style/Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/inregistrare_signUp" />
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/popa_antonela_tv_inregistrare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/inregistrare_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/signUp_cardView"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textAlignment="center"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/popa_antonela_nav_acasa"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="@string/menu_acasa" />
+        <item
+            android:id="@+id/popa_antonela_nav_venit"
+            android:icon="@drawable/ic_baseline_topic_24"
+            android:title="@string/menu_venit" />
+
+        <item
+            android:id="@+id/popa_antonela_nav_buget_alocat"
+            android:icon="@drawable/ic_baseline_topic_24"
+            android:title="@string/menu_buget_alocat" />
+
+        <item
+            android:id="@+id/popa_antonela_nav_cheltuieli"
+            android:icon="@drawable/ic_baseline_topic_24"
+            android:title="@string/menu_cheltuieli" />
+
+        <item
+            android:id="@+id/popa_antonela_nav_obiective"
+            android:icon="@drawable/ic_baseline_topic_24"
+            android:title="@string/menu_obiective" />
+        <item
+            android:id="@+id/popa_antonela_nav_logout"
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="@string/menu_logout" />
+    </group>
+</menu>

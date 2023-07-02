@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogInActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/login_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
+        app:cardBackgroundColor="@color/cardview_shadow_start_color"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_til_username"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_tiet_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:drawableRight="@drawable/ic_baseline_person_24"
+                    style="@style/TietTextColor.BackgroundColor"
+                    android:padding="20dp"
+                    android:textSize="16dp"
+                    android:hint="@string/nume_utilizatior_login" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_til_password"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/popa_antonela_tiet_password"
+
+                    android:drawableRight="@drawable/ic_baseline_remove_red_eye_24"
+                    style="@style/TietTextColor.BackgroundColor"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="numberPassword"
+                    android:padding="20dp"
+                    android:textSize="16dp"
+                    android:hint="@string/parola_login" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/login_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="23dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Button"
+                android:text="@string/conectare_login" />
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:id="@+id/login_btn_signUp"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="23dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+
+        android:text="@string/inregistrare_login"
+        app:layout_constraintTop_toBottomOf="@id/login_cardView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/login_cv_img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/login_cardView"
+        style="@style/AllCardView"
+        app:cardBackgroundColor="#5D9C59">
+
+        <ImageView
+            android:id="@+id/login_iv_user_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_user_login">
+
+        </ImageView>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
