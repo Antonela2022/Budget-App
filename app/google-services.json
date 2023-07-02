@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "16566308623",
+    "project_id": "planificarea-bugetului",
+    "storage_bucket": "planificarea-bugetului.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16566308623:android:b6609f63a2eea675aef87a",
+        "android_client_info": {
+          "package_name": "eu.ase.ro.planificareabugetuluipersonal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16566308623-2ee55sb0opf10a39qm7jqfm3mdrqjn83.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "eu.ase.ro.planificareabugetuluipersonal",
+            "certificate_hash": "6d8a7a2f0b0f174c956b1094dfa8c7e691db8070"
+          }
+        },
+        {
+          "client_id": "16566308623-ta8oplug15ca02gkr1t97c2emcdc0cq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaVrc7Oz8FpfHdlq1Yl_NcSWl2pZNYQ6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16566308623-ta8oplug15ca02gkr1t97c2emcdc0cq4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
