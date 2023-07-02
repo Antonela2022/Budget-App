@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".AcasaFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/popa_antonela_tv_title_salut"
+        style="@style/TietTextColor"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:padding="32dp"
+        android:text="@string/acasa_buna_popescu_ana"
+
+
+        android:textAlignment="center"
+        android:textSize="28dp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popa_antonela_cv_acasa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_title_salut"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+
+        app:cardBackgroundColor="@color/cardview_shadow_start_color"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/popa_antonela_tv_venit_total"
+                style="@style/TietTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:padding="12dp"
+                android:text="Total venituri:"
+
+
+
+                android:textSize="15dp"
+                android:textStyle="bold"
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/popa_antonela_tv_cheltuieli_total"
+                style="@style/TietTextColor"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:padding="12dp"
+                android:text="Total cheltuieli:"
+
+
+
+                android:textSize="15dp"
+                android:textStyle="bold"
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+
+
+
+
+            <TextView
+                android:id="@+id/popa_antonela_tv_buget_ramas"
+                style="@style/TietTextColor"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:padding="12dp"
+                android:text="Buget ramas: "
+
+
+
+                android:textSize="15dp"
+                android:textStyle="bold"
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+
+            <Button
+                android:id="@+id/popa_antonela_btn_adauga_venituri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Button"
+                android:text="Adauga venit" />
+
+
+
+
+            <Button
+                android:id="@+id/popa_antonela_btn_seteaza_buget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Button"
+                android:text="Seteaza bugetele" />
+
+
+            <Button
+                android:id="@+id/popa_antonela_btn_adauga_cheltuieli"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Button"
+                android:text="Adauga cheltuieli" />
+
+
+            <Button
+                android:id="@+id/popa_antonela_btn_seteaza_obiective"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Button"
+                android:text="Adauga obiective" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

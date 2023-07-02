@@ -107,6 +107,21 @@
     <string name="seteaza_suma_buget">Seteaza suma buget</string>
 
 
+    <string name="add_bug_adauga_buget">Adauga buget</string>
+    <string name="add_obb_denumirea_obiectivului">Denumirea obiectivului</string>
+    <string name="add_obb_valorea_obiectivului">Valorea obiectivului</string>
+    <string name="alege_categoria_add_buget">Alege Categoria</string>
+    <string name="introduceti_suma_bugete">Introduceti suma</string>
+    <string name="grafic">Grafic</string>
+
+
+    <string name="acasa_buna_popescu_ana">Buna, Popescu Ana!</string>
+    <string name="acasa_total_venituri_0_ron">Total Venituri: 0 Ron</string>
+    <string name="acasa_total_cheltuieli_0_ron">Total cheltuieli: 0 Ron</string>
+    <string name="acasa_buget_ramas_0_ron">Buget Ramas: 0 Ron</string>
+    <string name="acasa_total_cheltuieli_ron">Total Cheltuieli: 0 Ron</string>
+
+
     <string-array name="spn_categorii_cheltuieli">
         <item>Mancare</item>
         <item>Diverstisment</item>
