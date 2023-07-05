@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CheltuieliFragment"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/popa_antonela_tv_title_cheltuieli"
+        style="@style/TietTextColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:padding="12dp"
+        android:text="@string/chetuieli_lv"
+
+
+        android:textAlignment="center"
+        android:textSize="32dp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+
+    <ExpandableListView
+        android:id="@+id/popa_antonela_elv_cheltuieli"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/popa_antonela_marina_narcisa_btn_lv_cheltuieli_modifica"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_title_cheltuieli"
+
+        >
+
+    </ExpandableListView>
+
+
+
+    <Button
+        android:id="@+id/popa_antonela_marina_narcisa_btn_lv_cheltuieli_modifica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/modifica_cheltuieli"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_elv_cheltuieli" />
+
+    <Button
+        android:id="@+id/popa_antonela_marina_narcisa_btn_lv_cheltuieli_sterge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/sterge_cheltuieli"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_elv_cheltuieli" />
+</androidx.constraintlayout.widget.ConstraintLayout>

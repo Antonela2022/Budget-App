@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/lv_background">
+
+
+    <TextView
+        android:id="@+id/row_item_tv_venituri_data"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="zi/luna"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/row_item_tv_venituri_provenienta"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/row_item_tv_venituri_provenienta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/provenienta_venit"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/row_item_tv_venituri_suma"
+        app:layout_constraintStart_toEndOf="@+id/row_item_tv_venituri_data"
+
+        android:textAllCaps="true"
+        />
+
+    <TextView
+        android:id="@+id/row_item_tv_venituri_suma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/suma_venit_lv"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/row_item_tv_venituri_valuta"
+        app:layout_constraintStart_toEndOf="@+id/row_item_tv_venituri_provenienta"
+
+        android:textAllCaps="true"
+        />
+
+
+    <TextView
+        android:id="@+id/row_item_tv_venituri_valuta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/ron_venituri"
+
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/row_item_tv_venituri_suma"
+
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

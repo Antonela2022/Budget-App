@@ -192,5 +192,40 @@
 
     </androidx.cardview.widget.CardView>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_cv_acasa"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:progressDrawable="@drawable/custom_progress_bar">
+
+    </ProgressBar>
+
+    <TextView
+        android:id="@+id/popa_antonela_tv_progress_bar_procentaj"
+        style="@style/TietTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-smallcaps"
+
+        android:text="@string/procentaj_progress_bar"
+
+
+        android:textAlignment="center"
+        android:textSize="12dp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar">
+
+    </TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
