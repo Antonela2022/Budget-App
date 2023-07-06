@@ -6,6 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AcasaFragment">
 
+
+
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/popa_antonela_tv_title_salut"
@@ -198,7 +200,7 @@
         android:layout_height="wrap_content"
         style="?android:attr/progressBarStyleHorizontal"
         app:layout_constraintTop_toBottomOf="@+id/popa_antonela_cv_acasa"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="32dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:progressDrawable="@drawable/custom_progress_bar">

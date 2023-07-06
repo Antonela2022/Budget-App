@@ -155,6 +155,8 @@
     <string name="inapoi_add_venituri">Inapoi</string>
     <string name="inapoi_add_bugete">Inapoi</string>
     <string name="procentaj_progress_bar">0%</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 
 
     <string-array name="spn_categorii_cheltuieli">
@@ -172,4 +174,7 @@
         <item>Uz personal</item>
         <item>Altele</item>
     </string-array>
+
+
+
 </resources>

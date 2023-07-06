@@ -36,12 +36,13 @@ class LogInActivity : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,
+                            "Credentiale introduse gresit! Va rugam incercati din nou", Toast.LENGTH_SHORT).show()
 
                     }
                 }
             } else {
-                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Va rugam completati toate campurile!", Toast.LENGTH_SHORT).show()
             }
 
             firebaseAuth = FirebaseAuth.getInstance()
