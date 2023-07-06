@@ -1,5 +1,6 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -10,6 +11,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
@@ -53,7 +56,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                .replace(R.id.main_frame_container,ObiectiveFragment()).commit()
 //           R.id.popa_antonela_nav_grafic->supportFragmentManager.beginTransaction()
 //               .replace(R.id.main_frame_container,AcasaFragment()).commit()
-           R.id.popa_antonela_nav_logout->Toast.makeText(this,"LogOut",Toast.LENGTH_SHORT).show()
+           R.id.popa_antonela_nav_logout->{
+               Firebase.auth.signOut()
+               val intent = Intent(this, LogInActivity::class.java)
+               startActivity(intent)
+           }
        }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
