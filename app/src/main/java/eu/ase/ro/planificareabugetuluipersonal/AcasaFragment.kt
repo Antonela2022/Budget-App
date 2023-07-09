@@ -1,10 +1,12 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +36,32 @@ class AcasaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acasa, container, false)
+        val view= inflater.inflate(R.layout.fragment_acasa, container, false)
+        val btnAdaugaVenituri=view.findViewById<Button>(R.id.popa_antonela_btn_adauga_venituri)
+        val btnAdaugaBugete=view.findViewById<Button>(R.id.popa_antonela_btn_seteaza_buget)
+        val btnAdaugaObiective=view.findViewById<Button>(R.id.popa_antonela_btn_seteaza_obiective)
+        val btnAdaugaCheltuieli=view.findViewById<Button>(R.id.popa_antonela_btn_adauga_cheltuieli)
+
+        btnAdaugaVenituri.setOnClickListener{
+            val Intent= Intent(requireContext(),AdaugaVenituriActivity::class.java)
+            startActivity(Intent)
+        }
+
+        btnAdaugaBugete.setOnClickListener{
+            val Intent= Intent(requireContext(),SeteazaBugetActivity::class.java)
+            startActivity(Intent)
+        }
+
+        btnAdaugaObiective.setOnClickListener{
+            val Intent= Intent(requireContext(),AdaugaObiectiveActivity::class.java)
+            startActivity(Intent)
+        }
+
+        btnAdaugaCheltuieli.setOnClickListener{
+            val Intent= Intent(requireContext(),AdaugaCheltuieliActivity::class.java)
+            startActivity(Intent)
+        }
+        return view
     }
 
     companion object {
