@@ -6,89 +6,139 @@
     android:layout_height="match_parent"
     tools:context=".AdaugaVenituriActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_venit_ziua"
+    <ProgressBar
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
+        android:id="@+id/progressBarVenituri"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        ></ProgressBar>
 
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_venit_ziua"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/introduceti_ziua_incasarii" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_nume_venit"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_venit_ziua"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_nume_venit"
+        <TextView
+            android:id="@+id/popa_antonela_tv_selecteaza_data_incasarii_venit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/nume_venit" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/selecteaza_data_incasarii"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/popa_antonela_btn_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="01/01/2023"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_selecteaza_data_incasarii_venit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.00"
+            />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_suma_venit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_nume_venit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/popa_antonela_til_venit_ziua"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
 
-        >
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/popa_antonela_tiet_venit_ziua"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="@string/introduceti_ziua_incasarii" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_suma_venit"
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/popa_antonela_til_nume_venit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="@string/suma_venit" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_btn_data">
 
-    <Button
-        android:id="@+id/popa_antonela_btn_adauga_venitul"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/adauga_venitul"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.87"
-        app:layout_constraintStart_toStartOf="parent" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/popa_antonela_tiet_nume_venit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nume_venit" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/popa_antonela_btn_adauga_venituri_inapoi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/inapoi_add_venituri"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/popa_antonela_til_suma_venit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_nume_venit">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/popa_antonela_tiet_suma_venit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/suma_venit"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/popa_antonela_btn_adauga_venitul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/adauga_venitul"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.87"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/popa_antonela_btn_adauga_venituri_inapoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/inapoi_add_venituri"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.13"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

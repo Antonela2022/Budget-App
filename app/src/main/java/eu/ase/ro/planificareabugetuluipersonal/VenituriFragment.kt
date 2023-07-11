@@ -1,23 +1,34 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import eu.ase.ro.planificareabugetuluipersonal.util.Venit
+import eu.ase.ro.planificareabugetuluipersonal.util.VenitAdapter
+import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [VenituriFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class VenituriFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
+    private lateinit var adapter: VenitAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var venituriList:ArrayList<Venit>
+
+
+    private lateinit var firebaseAuth: FirebaseAuth
+    val db = Firebase.firestore
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -33,27 +44,43 @@ class VenituriFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_venituri, container, false)
+        val view= inflater.inflate(R.layout.fragment_venituri, container, false)
+
+
+        venituriList = ArrayList()
+        recyclerView = view.findViewById(R.id.popa_antonela_lv_venituri)
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        db.collection("Venituri")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val denumire=document.getString("nume")
+                    val suma=document.getString("suma")
+                    val zi = document.getString("zi")
+
+                    if (denumire != null && suma != null && zi != null) {
+                        val venit = Venit(zi, denumire, suma)
+                        venituriList.add(venit)
+                    }
+                }
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VenituriFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VenituriFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter = VenitAdapter(venituriList)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 }

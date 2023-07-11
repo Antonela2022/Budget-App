@@ -3,11 +3,8 @@ package eu.ase.ro.planificareabugetuluipersonal
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import eu.ase.ro.planificareabugetuluipersonal.databinding.ActivityLogInBinding
 
 class LogInActivity : AppCompatActivity() {
@@ -35,6 +32,8 @@ class LogInActivity : AppCompatActivity() {
                     if (it.isSuccessful) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+
+
                     } else {
                         Toast.makeText(this,
                             "Credentiale introduse gresit! Va rugam incercati din nou", Toast.LENGTH_SHORT).show()

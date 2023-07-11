@@ -22,10 +22,11 @@ class SignUpActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
         binding.signUpBtnInregistrare.setOnClickListener {
-            val email = binding.signUpTietEmail.text.toString()
-            val pass = binding.signUpTietParola.text.toString()
+            val email = binding.signUpTietEmail.text.toString().trim()
+            val pass = binding.signUpTietParola.text.toString().trim()
+            val username=binding.signUpTietUsername.text.toString().trim()
 
-            if (email.isNotEmpty() && pass.isNotEmpty()) {
+            if (email.isNotEmpty() && pass.isNotEmpty() && username.isNotEmpty()) {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
                             val intent = Intent(this, LogInActivity::class.java)

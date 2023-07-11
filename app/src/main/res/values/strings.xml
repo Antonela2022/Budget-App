@@ -157,6 +157,7 @@
     <string name="procentaj_progress_bar">0%</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="selecteaza_data_incasarii">Selecteaza data incasarii</string>
 
 
     <string-array name="spn_categorii_cheltuieli">
