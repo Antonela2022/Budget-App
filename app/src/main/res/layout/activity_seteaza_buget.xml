@@ -68,6 +68,7 @@
                 android:id="@+id/popa_antonela_tiet_seteaza_suma_buget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/introduceti_valoarea_bugetului" />
 
         </com.google.android.material.textfield.TextInputLayout>

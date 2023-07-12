@@ -1,6 +1,7 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +26,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
     private lateinit var container: ConstraintLayout
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +34,10 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
         intitComponents()
         inapoiPagPrincipala()
-        adaugaBugetBD()
-
+        getCategoriiExistente()
     }
 
-    private fun adaugaBugetBD() {
+    private fun adaugaBugetBD(categoriiExistente: List<String>) {
         btnAdaugaBuget.setOnClickListener {
             progressBar.visibility = View.VISIBLE
             container.visibility = View.GONE
@@ -43,6 +45,22 @@ class SeteazaBugetActivity : AppCompatActivity() {
             val selectedValue: String = spnCategorie.selectedItem.toString()
             val suma=tietSumaBuget.text.toString().trim()
             val totalCheltuieli=0
+
+            // Verificăm dacă categoria selectată există deja în lista de categorii
+            if (categoriiExistente.contains(selectedValue)) {
+                Toast.makeText(this, "Pentru categoria selectata s-a introdus deja bugetul! Va rugam alocati buget pentru alta categorie!", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = View.GONE
+                container.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
+
+            if (suma.isEmpty()) {
+                Toast.makeText(this, "Vă rugăm introduceți o sumă validă!", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = View.GONE
+                container.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
+
 
             val bugete = hashMapOf(
                 "categorie" to "${selectedValue}",
@@ -70,6 +88,24 @@ class SeteazaBugetActivity : AppCompatActivity() {
         }
     }
 
+    private fun getCategoriiExistente() {
+        db.collection("Bugete")
+            .get()
+            .addOnSuccessListener { documents ->
+                val categoriiExistente = mutableListOf<String>()
+                for (document in documents) {
+                    val categorie = document.getString("categorie")
+                    if (categorie != null) {
+                        categoriiExistente.add(categorie)
+                    }
+                }
+                adaugaBugetBD(categoriiExistente)
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error getting documents", e)
+            }
+    }
     private fun inapoiPagPrincipala() {
         btnInapoiObiective.setOnClickListener{
             val Intent= Intent(this,MainActivity::class.java)
