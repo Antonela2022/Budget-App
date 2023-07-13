@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import eu.ase.ro.planificareabugetuluipersonal.util.SingletonList
 
 class SeteazaBugetActivity : AppCompatActivity() {
     private lateinit var btnInapoiObiective:Button
@@ -26,7 +27,8 @@ class SeteazaBugetActivity : AppCompatActivity() {
     private lateinit var container: ConstraintLayout
     private lateinit var firebaseAuth: FirebaseAuth
 
-
+    val categoriiTotale= mutableListOf<String>()
+    val categoriiExistente = mutableListOf<String>()
     val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
         intitComponents()
         inapoiPagPrincipala()
         getCategoriiExistente()
+
     }
 
     private fun adaugaBugetBD(categoriiExistente: List<String>) {
@@ -48,7 +51,11 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
             // Verificăm dacă categoria selectată există deja în lista de categorii
             if (categoriiExistente.contains(selectedValue)) {
-                Toast.makeText(this, "Pentru categoria selectata s-a introdus deja bugetul! Va rugam alocati buget pentru alta categorie!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Pentru categoria selectata s-a introdus deja bugetul! Va rugam alocati buget pentru alta categorie!",
+                    Toast.LENGTH_SHORT
+                ).show()
                 progressBar.visibility = View.GONE
                 container.visibility = View.VISIBLE
                 return@setOnClickListener
@@ -75,9 +82,16 @@ class SeteazaBugetActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     progressBar.visibility = View.GONE
 
+                    categoriiTotale.addAll(categoriiExistente)
+                    categoriiTotale.add(selectedValue)
+                    SingletonList.setList(categoriiTotale)
+                    Log.d(TAG,"Categorii totale: $categoriiTotale")
+
                     val Intent= Intent(this,MainActivity::class.java)
                     startActivity(Intent)
                     Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+
+
                 }
                 .addOnFailureListener { e ->
                     progressBar.visibility = View.GONE
@@ -85,6 +99,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
                     Log.w(ContentValues.TAG, "Error writing document", e) }
 
             println("Application message ${selectedValue} , ${totalCheltuieli} ,${suma}")
+
         }
     }
 
@@ -92,24 +107,28 @@ class SeteazaBugetActivity : AppCompatActivity() {
         db.collection("Bugete")
             .get()
             .addOnSuccessListener { documents ->
-                val categoriiExistente = mutableListOf<String>()
+
                 for (document in documents) {
                     val categorie = document.getString("categorie")
                     if (categorie != null) {
                         categoriiExistente.add(categorie)
                     }
+
                 }
                 adaugaBugetBD(categoriiExistente)
-
+//
+//                Log.d(TAG, "Categorii existente:$categoriiExistente")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting documents", e)
             }
     }
+
     private fun inapoiPagPrincipala() {
         btnInapoiObiective.setOnClickListener{
             val Intent= Intent(this,MainActivity::class.java)
             startActivity(Intent)
+
         }
     }
 
@@ -121,5 +140,6 @@ class SeteazaBugetActivity : AppCompatActivity() {
         btnAdaugaBuget=findViewById(R.id.popa_antonela_marina_narcisa_btn_adauga_buget)
         progressBar=findViewById(R.id.progressBarBugete)
         container=findViewById(R.id.container_view_bugete)
+
     }
 }

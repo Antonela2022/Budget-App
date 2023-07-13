@@ -1,29 +1,28 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import eu.ase.ro.planificareabugetuluipersonal.util.SingletonList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AcasaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AcasaFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    val categoriiExistente = mutableListOf<String>()
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -59,29 +58,30 @@ class AcasaFragment : Fragment() {
         }
 
         btnAdaugaCheltuieli.setOnClickListener{
-            val Intent= Intent(requireContext(),AdaugaCheltuieliActivity::class.java)
-            startActivity(Intent)
+            getCategoriiExistente()
+
+            val intent= Intent(requireContext(),AdaugaCheltuieliActivity::class.java)
+            intent.putStringArrayListExtra("categoriiCheltuieli", ArrayList(categoriiExistente))
+            startActivity(intent)
         }
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AcasaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AcasaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getCategoriiExistente() {
+        db.collection("Bugete")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val categorie = document.getString("categorie")
+                    if (categorie != null) {
+                        categoriiExistente.add(categorie)
+                    }
                 }
+                SingletonList.setList(categoriiExistente)
+                Log.d(ContentValues.TAG, "Categorii existente:${SingletonList.getList()}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error getting documents", e)
             }
     }
 }

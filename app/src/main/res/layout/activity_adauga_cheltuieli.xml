@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_alege_categoria_cheltuiala"
-        android:entries="@array/spn_categorii_cheltuieli"/>
+/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/popa_antonela_til_cheltuaila_ziua"

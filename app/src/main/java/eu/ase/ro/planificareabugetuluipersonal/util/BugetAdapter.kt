@@ -17,7 +17,7 @@ class BugetAdapter(private val bugeteList:ArrayList<Buget>):
     override fun onBindViewHolder(holder: BugetViewHolder, position: Int) {
         val currentItem=bugeteList[position]
         holder.categorie.text=currentItem.categorie
-        holder.totalCheltuieli.text=currentItem.totalCheltuieli + "/"
+        holder.totalCheltuieli.text=currentItem.totalCheltuieli.toString() + "/"
         holder.suma.text=currentItem.suma
 
     }

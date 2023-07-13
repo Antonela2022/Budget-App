@@ -21,7 +21,6 @@ private const val ARG_PARAM2 = "param2"
 
 
 class FragmentBugete : Fragment() {
-
     private lateinit var adapter: BugetAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var bugeteList:ArrayList<Buget>
@@ -49,6 +48,7 @@ class FragmentBugete : Fragment() {
         recyclerView = view.findViewById(R.id.popa_antonela_lv_bugete)
         firebaseAuth = FirebaseAuth.getInstance()
 
+
         db.collection("Bugete")
             .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
             .get()
@@ -56,20 +56,24 @@ class FragmentBugete : Fragment() {
                 for (document in documents) {
                     Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
                     val categorie=document.getString("categorie")
-                    val totalCheltuieli = document.getString("totalCheltuieli")
+                    val totalCheltuieli = document.getString("totalCheltuieli")?.toInt()
                     val suma=document.getString("suma")
 
                     if(categorie!=null && totalCheltuieli!=null && suma!=null){
                         val buget = Buget(categorie, totalCheltuieli, suma)
                         bugeteList.add(buget)
+
                     }
 
                 }
+
                 adapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.w(ContentValues.TAG, "Error getting documents: ", exception)
             }
+
+
         return view
     }
 
