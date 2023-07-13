@@ -36,6 +36,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
         intitComponents()
         inapoiPagPrincipala()
+
         getCategoriiExistente()
 
     }
@@ -116,8 +117,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
                 }
                 adaugaBugetBD(categoriiExistente)
-//
-//                Log.d(TAG, "Categorii existente:$categoriiExistente")
+
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting documents", e)
