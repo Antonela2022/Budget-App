@@ -5,145 +5,136 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdaugaCheltuieliActivity">
-
-
-    <TextView
-        android:id="@+id/popa_antonela_tv_alege_categoria_cheltuiala"
+    <ProgressBar
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/alege_categoria"
+        android:id="@+id/progressBarCheltuieli"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        ></ProgressBar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_view_cheltuieli"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Spinner
-        android:id="@+id/popa_antonela_spn_cetegorii_cheltuieli"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_alege_categoria_cheltuiala"
-/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_cheltuaila_ziua"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_spn_cetegorii_cheltuieli"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_cheltuiala_ziua"
+        <TextView
+            android:id="@+id/popa_antonela_tv_alege_categoria_cheltuiala"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/introduceti_ziua_efectuarii_cheltuielii" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/alege_categoria"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_luna_curenta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_cheltuaila_ziua"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_luna_curenta"
+        <Spinner
+            android:id="@+id/popa_antonela_spn_cetegorii_cheltuieli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/introduceti_luna_curenta" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_alege_categoria_cheltuiala" />
+        <Button
+            android:id="@+id/popa_antonela_btn_dataCheltuieli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="01/01/2023"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_spn_cetegorii_cheltuieli"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.00" />
 
 
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_nume_cheltuiala"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_luna_curenta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_nume_cheltuiala"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/popa_antonela_til_nume_cheltuiala"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/introduteti_nume_cheltuiala" />
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_btn_dataCheltuieli"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/popa_antonela_tiet_nume_cheltuiala"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/introduteti_nume_cheltuiala" />
 
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/popa_antonela_til_suma_cheltuiala"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_nume_cheltuiala"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/popa_antonela_tiet_suma_cheltuiala"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/popa_antonela_til_suma_cheltuiala"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/introduceti_suma_cheltuita" />
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_nume_cheltuiala"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/popa_antonela_tiet_suma_cheltuiala"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/introduceti_suma_cheltuita" />
 
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-    android:id="@+id/popa_antonela_btn_adauga_cheltuiala"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/adauga_cheltuiala"
-    android:layout_marginBottom="32dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.87"
-    app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/popa_antonela_btn_adauga_cheltuiala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/adauga_cheltuiala"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.87"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/popa_antonela_btn_adauga_cheltuiala_inapoi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/inapoi_add_chetuieli"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        <Button
+            android:id="@+id/popa_antonela_btn_adauga_cheltuiala_inapoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inapoi_add_chetuieli"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.13"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

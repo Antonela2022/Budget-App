@@ -92,6 +92,7 @@
                 android:id="@+id/popa_antonela_tiet_nume_venit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/nume_venit" />
         </com.google.android.material.textfield.TextInputLayout>
 

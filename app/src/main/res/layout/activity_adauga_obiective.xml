@@ -25,6 +25,7 @@
             android:id="@+id/popa_antonela_tiet_seteaza_obiectiv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="@string/introduceti_nume_obiectiv" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,6 +47,7 @@
             android:id="@+id/popa_antonela_tiet_valoare_obiectiv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:hint="@string/valoare_obiectiv" />
     </com.google.android.material.textfield.TextInputLayout>
 
