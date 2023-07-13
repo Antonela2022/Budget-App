@@ -11,14 +11,14 @@ class BugetAdapter(private val bugeteList:ArrayList<Buget>):
     RecyclerView.Adapter<BugetAdapter.BugetViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BugetViewHolder {
-        val itemView= LayoutInflater.from(parent.context).inflate(R.layout.lv_row_bugete_item,parent,false)
+        val itemView= LayoutInflater.from(parent.context).inflate(R.layout.elv_group_bugete,parent,false)
         return BugetViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: BugetViewHolder, position: Int) {
         val currentItem=bugeteList[position]
         holder.categorie.text=currentItem.categorie
         holder.totalCheltuieli.text=currentItem.totalCheltuieli.toString() + "/"
-        holder.suma.text=currentItem.suma
+        holder.suma.text=currentItem.suma.toString()
 
     }
 

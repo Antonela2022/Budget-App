@@ -158,6 +158,7 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="selecteaza_data_incasarii">Selecteaza data incasarii</string>
+    <string name="bugete_si_cheltuieli">Bugete si cheltuieli</string>
 
 
     <string-array name="spn_categorii_cheltuieli">
@@ -175,7 +176,6 @@
         <item>Uz personal</item>
         <item>Altele</item>
     </string-array>
-
 
 
 </resources>

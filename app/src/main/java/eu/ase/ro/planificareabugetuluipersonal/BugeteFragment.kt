@@ -56,8 +56,8 @@ class FragmentBugete : Fragment() {
                 for (document in documents) {
                     Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
                     val categorie=document.getString("categorie")
-                    val totalCheltuieli = document.getString("totalCheltuieli")?.toInt()
-                    val suma=document.getString("suma")
+                    val totalCheltuieli = document.getDouble("totalCheltuieli")?.toDouble()
+                    val suma=document.getDouble("suma")
 
                     if(categorie!=null && totalCheltuieli!=null && suma!=null){
                         val buget = Buget(categorie, totalCheltuieli, suma)

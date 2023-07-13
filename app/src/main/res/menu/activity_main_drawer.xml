@@ -14,6 +14,11 @@
             android:title="@string/menu_venit" />
 
         <item
+            android:id="@+id/popa_antonela_nav_bugete_cheltuieli"
+            android:icon="@drawable/ic_baseline_topic_24"
+            android:title="@string/bugete_si_cheltuieli" />
+
+        <item
             android:id="@+id/popa_antonela_nav_buget_alocat"
             android:icon="@drawable/ic_baseline_topic_24"
             android:title="@string/menu_buget_alocat" />

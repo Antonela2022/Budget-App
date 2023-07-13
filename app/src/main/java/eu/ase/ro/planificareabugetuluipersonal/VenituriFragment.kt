@@ -58,7 +58,7 @@ class VenituriFragment : Fragment() {
                 for (document in documents) {
                     Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
                     val denumire=document.getString("nume")
-                    val suma=document.getString("suma")
+                    val suma=document.getDouble("suma")
                     val zi = document.getString("zi")
 
                     if (denumire != null && suma != null && zi != null) {

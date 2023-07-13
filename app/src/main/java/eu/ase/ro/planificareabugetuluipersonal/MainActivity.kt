@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import eu.ase.ro.planificareabugetuluipersonal.BugeteCheltuieliFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
@@ -49,6 +50,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                .replace(R.id.main_frame_container,AcasaFragment()).commit()
            R.id.popa_antonela_nav_venit->supportFragmentManager.beginTransaction()
                .replace(R.id.main_frame_container,VenituriFragment()).commit()
+           R.id.popa_antonela_nav_bugete_cheltuieli->supportFragmentManager.beginTransaction()
+               .replace(R.id.main_frame_container,BugeteCheltuieliFragment()).commit()
            R.id.popa_antonela_nav_buget_alocat->supportFragmentManager.beginTransaction()
                .replace(R.id.main_frame_container,FragmentBugete()).commit()
            R.id.popa_antonela_nav_cheltuieli->supportFragmentManager.beginTransaction()
