@@ -29,7 +29,7 @@
     </TextView>
 
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/popa_antonela_lv_obiective"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -37,7 +37,9 @@
         app:layout_constraintBottom_toTopOf="@+id/popa_antonela_marina_narcisa_btn_lv_obiective_modifica"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_title_obiective" />
+        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_title_obiective"
+        tools:listitem="@layout/lv_row_obiective_item"
+        android:scrollbars="vertical"/>
 
     <Button
         android:id="@+id/popa_antonela_marina_narcisa_btn_lv_obiective_modifica"

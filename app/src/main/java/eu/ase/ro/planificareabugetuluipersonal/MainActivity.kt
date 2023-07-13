@@ -3,10 +3,7 @@ package eu.ase.ro.planificareabugetuluipersonal
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -14,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import eu.ase.ro.planificareabugetuluipersonal.BugeteCheltuieliFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
@@ -52,10 +48,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                .replace(R.id.main_frame_container,VenituriFragment()).commit()
            R.id.popa_antonela_nav_bugete_cheltuieli->supportFragmentManager.beginTransaction()
                .replace(R.id.main_frame_container,BugeteCheltuieliFragment()).commit()
-           R.id.popa_antonela_nav_buget_alocat->supportFragmentManager.beginTransaction()
-               .replace(R.id.main_frame_container,FragmentBugete()).commit()
-           R.id.popa_antonela_nav_cheltuieli->supportFragmentManager.beginTransaction()
-               .replace(R.id.main_frame_container,CheltuieliFragment()).commit()
            R.id.popa_antonela_nav_obiective->supportFragmentManager.beginTransaction()
                .replace(R.id.main_frame_container,ObiectiveFragment()).commit()
 //           R.id.popa_antonela_nav_grafic->supportFragmentManager.beginTransaction()
@@ -77,8 +69,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             onBackPressedDispatcher.onBackPressed()
         }
     }
-
-
-
-
 }

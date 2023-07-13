@@ -7,14 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import eu.ase.ro.planificareabugetuluipersonal.util.*
-
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -65,11 +62,8 @@ class BugeteCheltuieliFragment : Fragment() {
                     if(categorie!=null && totalCheltuieli!=null && suma!=null){
                         val buget = Buget(categorie, totalCheltuieli, suma)
                         listaBugete.add(buget)
-
                     }
-
                 }
-
                 adapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
@@ -108,7 +102,6 @@ class BugeteCheltuieliFragment : Fragment() {
         expandableListView.setAdapter(adapter)
         return view
     }
-
 }
 
 

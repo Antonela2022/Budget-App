@@ -19,16 +19,6 @@
             android:title="@string/bugete_si_cheltuieli" />
 
         <item
-            android:id="@+id/popa_antonela_nav_buget_alocat"
-            android:icon="@drawable/ic_baseline_topic_24"
-            android:title="@string/menu_buget_alocat" />
-
-        <item
-            android:id="@+id/popa_antonela_nav_cheltuieli"
-            android:icon="@drawable/ic_baseline_topic_24"
-            android:title="@string/menu_cheltuieli" />
-
-        <item
             android:id="@+id/popa_antonela_nav_obiective"
             android:icon="@drawable/ic_baseline_topic_24"
             android:title="@string/menu_obiective" />
