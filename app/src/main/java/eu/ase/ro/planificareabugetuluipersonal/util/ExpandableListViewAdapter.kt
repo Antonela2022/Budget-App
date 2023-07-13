@@ -63,7 +63,7 @@ class ExpandableListViewAdapter internal constructor(private val context:Context
             categoriaTextView.text = bugeteInfo.categorie
         }
         if (totalCheltuieliTextView != null) {
-            totalCheltuieliTextView.text = getTotalCheltuieli(bugeteInfo.categorie).toString()
+            totalCheltuieliTextView.text = getTotalCheltuieli(bugeteInfo.categorie).toString() + "/"
         }
         if (valoareBugetTextView != null) {
             valoareBugetTextView.text = bugeteInfo.suma.toString()

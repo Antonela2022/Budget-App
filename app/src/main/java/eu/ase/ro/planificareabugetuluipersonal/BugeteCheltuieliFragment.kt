@@ -11,6 +11,8 @@ import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import eu.ase.ro.planificareabugetuluipersonal.util.*
 
 
@@ -23,6 +25,10 @@ class BugeteCheltuieliFragment : Fragment() {
     private lateinit var adapter: ExpandableListViewAdapter
     private val listaBugete = mutableListOf<Buget>()
     private val listaCheltuieli = mutableListOf<Cheltuiala>()
+
+
+    private lateinit var firebaseAuth: FirebaseAuth
+    val db = Firebase.firestore
 
     private var param1: String? = null
     private var param2: String? = null
@@ -43,32 +49,66 @@ class BugeteCheltuieliFragment : Fragment() {
 
         expandableListView = view.findViewById(R.id.popa_antonela_elv_bugete_cheltuieli)
 
-        // Adăugați bugete în listaBugete
-         adaugaBuget("Categoria 1", 1000.0,67.2)
-         adaugaBuget("Categoria 2", 2000.0,67.3)
-         adaugaBuget("Categoria 3", 1500.0,67.2)
+        firebaseAuth = FirebaseAuth.getInstance()
 
-        // Adăugați cheltuieli în listaCheltuieli
-        adaugaCheltuiala("Categoria 1", "01/07/2023", "Cheltuiala 1", 500.0)
-        adaugaCheltuiala("Categoria 1", "02/07/2023", "Cheltuiala 2", 300.0)
-        adaugaCheltuiala("Categoria 2", "03/07/2023", "Cheltuiala 3", 800.0)
-        adaugaCheltuiala("Categoria 3", "04/07/2023", "Cheltuiala 4", 200.0)
-        adaugaCheltuiala("Categoria 3", "05/07/2023", "Cheltuiala 5", 400.0)
+
+        db.collection("Bugete")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val categorie=document.getString("categorie")
+                    val totalCheltuieli = document.getString("totalCheltuieli")?.toDouble()
+                    val suma=document.getString("suma")?.toDouble()
+
+                    if(categorie!=null && totalCheltuieli!=null && suma!=null){
+                        val buget = Buget(categorie, totalCheltuieli, suma)
+                        listaBugete.add(buget)
+
+                    }
+
+                }
+
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+        db.collection("Cheltuieli")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+
+                    val categorie=document.getString("categorie")
+                    val data=document.getString("data")
+                    val denumireCheltuiala=document.getString("nume")
+                    val sumaCheltuita = document.getString("suma")?.toDouble()
+
+
+                    if(categorie!=null && data!=null && denumireCheltuiala!=null  && sumaCheltuita!=null){
+                        val cheltuiala = Cheltuiala(categorie,data, denumireCheltuiala, sumaCheltuita)
+                        listaCheltuieli.add(cheltuiala)
+
+                    }
+
+                }
+
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
 
         adapter = ExpandableListViewAdapter(requireContext(), listaBugete, listaCheltuieli)
         expandableListView.setAdapter(adapter)
         return view
     }
 
-    private fun adaugaBuget(categoria: String, totalCheltuieli :Double,valoareBuget: Double) {
-        val buget = Buget(categoria, totalCheltuieli , valoareBuget)
-        listaBugete.add(buget)
-    }
-
-    private fun adaugaCheltuiala(categoria: String, data: String, denumire: String, sumaCheltuita: Double) {
-        val cheltuiala = Cheltuiala(categoria, data, denumire, sumaCheltuita)
-        listaCheltuieli.add(cheltuiala)
-    }
 }
 
 
