@@ -1,6 +1,7 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -76,6 +77,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             onBackPressedDispatcher.onBackPressed()
         }
     }
+    override fun onResume() {
+        super.onResume()
 
+        // Resetați valoarea depășirii bugetului în SharedPreferences
+        val sharedPreferences = getSharedPreferences("BudgetExceeded", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isBudgetExceeded", false)
+        editor.apply()
+    }
 
 }

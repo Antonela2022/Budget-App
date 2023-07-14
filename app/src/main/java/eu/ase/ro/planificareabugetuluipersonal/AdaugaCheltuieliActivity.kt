@@ -4,11 +4,14 @@ package eu.ase.ro.planificareabugetuluipersonal
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -32,9 +35,13 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
     var formatDate= SimpleDateFormat("dd/MM/yyyy", Locale.US)
     val db = Firebase.firestore
 
+
+    private lateinit var sharedPreferencesMap: MutableMap<String, SharedPreferences>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adauga_cheltuieli)
+        sharedPreferencesMap = mutableMapOf()
 
         initComponents()
         seteazaItemSpinner()
@@ -88,30 +95,6 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
 
 
 
-            //actualizare total cheltuieli-bugete
-            db.collection("Bugete")
-                .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
-                .whereEqualTo("categorie", categorieChetuiala)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val totalCheltuieli = document.getString("totalCheltuieli")?.toDouble()
-                        val sumaCheltuiala = suma.toDouble()
-                        val bugetAlocat=document.getString("suma")?.toDouble()
-
-                        val totalActualizat = totalCheltuieli?.plus(sumaCheltuiala).toString()
-
-
-
-                        // actualizare totalul cheltuielilor în baza de date
-                        db.collection("Bugete")
-                            .document(document.id)
-                            .update("totalCheltuieli", totalActualizat)
-
-
-                    }
-                }
-
 
             if (nume.isEmpty() || nume.isBlank() || nume.length < 3) {
                 Toast.makeText(this, "Vă rugăm să introduceți o denumire validă (minim 3 caractere).", Toast.LENGTH_SHORT).show()
@@ -138,10 +121,70 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
                 .add(venit)
                 .addOnSuccessListener {
                     progressBar.visibility = View.GONE
+                    //actualizare total cheltuieli-bugete
+                    db.collection("Bugete")
+                        .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                        .whereEqualTo("categorie", categorieChetuiala)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            for (document in documents) {
+                                val totalCheltuieli = document.getString("totalCheltuieli")?.toDouble()
+                                val sumaCheltuiala = suma.toDouble()
+                                val bugetAlocat=document.getString("suma")?.toDouble()
 
-                    val Intent= Intent(this,MainActivity::class.java)
-                    startActivity(Intent)
-                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                                val totalActualizat = totalCheltuieli?.plus(sumaCheltuiala).toString()
+
+                                if (totalActualizat.toDouble() > bugetAlocat!!) {
+                                    val sharedPreferences = sharedPreferencesMap[categorieChetuiala] ?: run {
+                                        val newSharedPreferences = getSharedPreferences(categorieChetuiala, MODE_PRIVATE)
+                                        sharedPreferencesMap[categorieChetuiala] = newSharedPreferences
+                                        newSharedPreferences
+                                    }
+                                    val isBudgetExceeded = sharedPreferences.getBoolean("isBudgetExceeded", false)
+                                    if (!isBudgetExceeded) {
+
+                                        // Afișați fereastra de informare doar prima dată când bugetul este depășit
+                                        val alertDialog = AlertDialog.Builder(this)
+                                        alertDialog.setTitle("Atenție")
+                                        alertDialog.setMessage("Ați depășit bugetul alocat pentru categoria $categorieChetuiala.")
+                                        alertDialog.setPositiveButton("OK") { dialog, _ ->
+                                            dialog.dismiss()
+
+                                            // Setează starea bugetului depășit în SharedPreferences
+                                            val editor = sharedPreferences.edit()
+                                            editor.putBoolean("isBudgetExceeded", true)
+                                            editor.apply()
+
+                                            // Reveniți în activitatea principală
+                                            val intent = Intent(this, MainActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        alertDialog.show()
+
+                                    }else{
+
+                                        val Intent= Intent(this,MainActivity::class.java)
+                                        startActivity(Intent)
+                                        Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                                    }
+
+                                }else{
+                                    val Intent= Intent(this,MainActivity::class.java)
+                                    startActivity(Intent)
+                                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                                }
+
+                                // actualizare totalul cheltuielilor în baza de date
+                                db.collection("Bugete")
+                                    .document(document.id)
+                                    .update("totalCheltuieli", totalActualizat)
+
+
+                            }
+                        }
+
+
+
                 }
                 .addOnFailureListener { e ->
                     progressBar.visibility = View.GONE
