@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +28,7 @@ class AdaugaVenituriActivity : AppCompatActivity() {
     private lateinit var container:ConstraintLayout
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var btnData:Button
+    private lateinit var switchButton:SwitchCompat
 
     var formatDate=SimpleDateFormat("dd/MM/yyyy",Locale.US)
     val db = Firebase.firestore
@@ -49,6 +51,8 @@ class AdaugaVenituriActivity : AppCompatActivity() {
             val data=btnData.text.toString().trim()
             val nume=tietNumeVenit.text.toString().trim()
             val suma=tietSumaVenit.text.toString().trim()
+            val tipVenit = switchButton.isChecked
+
 
 
             if (nume.isEmpty() || nume.isBlank() || nume.length < 3) {
@@ -68,6 +72,7 @@ class AdaugaVenituriActivity : AppCompatActivity() {
                 "zi" to "${data}",
                 "nume" to "${nume}",
                 "suma" to "${suma}",
+                "tipVenit" to "${tipVenit}",
                 "idUser" to "${firebaseAuth.currentUser?.uid.toString()}"
             )
 
@@ -85,7 +90,7 @@ class AdaugaVenituriActivity : AppCompatActivity() {
                     container.visibility = View.VISIBLE
                     Log.w(TAG, "Error writing document", e) }
 
-            println("Application message ${data},${nume},${suma}")
+            println("Application message ${data},${nume},${suma},${tipVenit}")
         }
     }
 
@@ -145,5 +150,6 @@ class AdaugaVenituriActivity : AppCompatActivity() {
         btnAdaugaVenit=findViewById(R.id.popa_antonela_btn_adauga_venitul)
         progressBar=findViewById(R.id.progressBarVenituri)
         container=findViewById(R.id.container_view)
+        switchButton=findViewById(R.id.sb_adauga_venituri_fix_ocazional)
     }
 }

@@ -46,9 +46,11 @@ class SeteazaBugetActivity : AppCompatActivity() {
             progressBar.visibility = View.VISIBLE
             container.visibility = View.GONE
 
+
             val selectedValue: String = spnCategorie.selectedItem.toString()
             val suma=tietSumaBuget.text.toString().trim()
-            val totalCheltuieli=0
+            val totalCheltuieli=0.0
+
 
             // Verificăm dacă categoria selectată există deja în lista de categorii
             if (categoriiExistente.contains(selectedValue)) {
@@ -106,6 +108,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
     private fun getCategoriiExistente() {
         db.collection("Bugete")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
             .get()
             .addOnSuccessListener { documents ->
 
@@ -123,6 +126,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
                 Log.w(TAG, "Error getting documents", e)
             }
     }
+
 
     private fun inapoiPagPrincipala() {
         btnInapoiObiective.setOnClickListener{

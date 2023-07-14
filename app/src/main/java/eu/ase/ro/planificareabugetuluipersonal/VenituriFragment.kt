@@ -60,9 +60,10 @@ class VenituriFragment : Fragment() {
                     val denumire=document.getString("nume")
                     val suma=document.getString("suma")?.toDouble()
                     val zi = document.getString("zi")
+                    val tipVenit=document.getString("tipVenit")?.toBoolean()
 
-                    if (denumire != null && suma != null && zi != null) {
-                        val venit = Venit(zi, denumire, suma)
+                    if (denumire != null && suma != null && zi != null && tipVenit != null) {
+                        val venit = Venit(zi, denumire, suma,tipVenit)
                         venituriList.add(venit)
                     }
                 }

@@ -57,23 +57,6 @@
             />
 
 
-        <!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/popa_antonela_til_venit_ziua"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginTop="32dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/popa_antonela_tiet_venit_ziua"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="@string/introduceti_ziua_incasarii" />-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
 
@@ -138,6 +121,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_adauga_venituri_fix_ocazional"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Este un venit fix?"
+
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sb_adauga_venituri_fix_ocazional"
+
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_suma_venit" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sb_adauga_venituri_fix_ocazional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:checked="true"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+
+            android:textOn="Fix"
+            android:textOff="Ocazional"
+
+            app:layout_constraintTop_toBottomOf="@+id/popa_antonela_til_suma_venit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_adauga_venituri_fix_ocazional"
+
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
