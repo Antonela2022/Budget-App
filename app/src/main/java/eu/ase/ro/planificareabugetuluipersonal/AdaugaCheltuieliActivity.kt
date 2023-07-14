@@ -1,5 +1,6 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
+
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
@@ -86,23 +87,23 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
             val suma=tietSumaCheltuiala.text.toString().trim()
 
 
-            val selectedCategory = spnCategorieCheltuieli.selectedItem.toString()
-
 
             //actualizare total cheltuieli-bugete
             db.collection("Bugete")
                 .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
-                .whereEqualTo("categorie", selectedCategory)
+                .whereEqualTo("categorie", categorieChetuiala)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         val totalCheltuieli = document.getString("totalCheltuieli")?.toDouble()
                         val sumaCheltuiala = suma.toDouble()
-
+                        val bugetAlocat=document.getString("suma")?.toDouble()
 
                         val totalActualizat = totalCheltuieli?.plus(sumaCheltuiala).toString()
 
-                        // Actualizați totalul cheltuielilor în baza de date
+
+
+                        // actualizare totalul cheltuielilor în baza de date
                         db.collection("Bugete")
                             .document(document.id)
                             .update("totalCheltuieli", totalActualizat)

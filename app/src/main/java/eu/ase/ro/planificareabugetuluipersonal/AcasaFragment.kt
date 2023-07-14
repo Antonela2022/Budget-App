@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import eu.ase.ro.planificareabugetuluipersonal.util.Cheltuiala
 import eu.ase.ro.planificareabugetuluipersonal.util.SingletonList
 
 
@@ -126,6 +124,7 @@ class AcasaFragment : Fragment() {
 
 
         return view
+
     }
 
 
@@ -147,4 +146,6 @@ class AcasaFragment : Fragment() {
                 Log.w(ContentValues.TAG, "Error getting documents", e)
             }
     }
+
+
 }

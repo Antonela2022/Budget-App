@@ -30,6 +30,8 @@ class SeteazaBugetActivity : AppCompatActivity() {
     val categoriiTotale= mutableListOf<String>()
     val categoriiExistente = mutableListOf<String>()
     val db = Firebase.firestore
+    var totalBugete=0.0
+    var totalVenituri=0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seteaza_buget)
@@ -41,7 +43,7 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
     }
 
-    private fun adaugaBugetBD(categoriiExistente: List<String>) {
+    private fun adaugaBugetBD(categoriiExistente: List<String>,totalBugete:Double,totalVenituri:Double) {
         btnAdaugaBuget.setOnClickListener {
             progressBar.visibility = View.VISIBLE
             container.visibility = View.GONE
@@ -52,6 +54,17 @@ class SeteazaBugetActivity : AppCompatActivity() {
             val totalCheltuieli=0.0
 
 
+
+            if(totalBugete+suma.toDouble()>totalVenituri){
+                Toast.makeText(
+                    this,
+                    "Total Bugete ${totalBugete} si ${totalVenituri}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                progressBar.visibility = View.GONE
+                container.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
             // Verificăm dacă categoria selectată există deja în lista de categorii
             if (categoriiExistente.contains(selectedValue)) {
                 Toast.makeText(
@@ -119,7 +132,39 @@ class SeteazaBugetActivity : AppCompatActivity() {
                     }
 
                 }
-                adaugaBugetBD(categoriiExistente)
+                db.collection("Bugete")
+                    .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            val sumaBuget = document.getString("suma")?.toDouble()
+
+                            if (sumaBuget != null) {
+                                totalBugete = totalBugete + sumaBuget
+                            }
+
+
+                        }
+                        Log.d(ContentValues.TAG,"TotalBugete:${totalBugete}")
+                        // Actualizați totalul cheltuielilor în baza de date
+                        db.collection("Venituri")
+                            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                            .get()
+                            .addOnSuccessListener { documents ->
+                                for (document in documents) {
+                                    val sumaVenit = document.getString("suma")?.toDouble()
+
+                                    if (sumaVenit != null) {
+                                        totalVenituri = totalVenituri + sumaVenit
+                                    }
+
+                                }
+                                Log.d(ContentValues.TAG,"TotalBugete:${totalBugete}")
+                                adaugaBugetBD(categoriiExistente,totalBugete,totalVenituri)
+                            }
+                    }
+
+
 
             }
             .addOnFailureListener { e ->
@@ -146,4 +191,10 @@ class SeteazaBugetActivity : AppCompatActivity() {
         container=findViewById(R.id.container_view_bugete)
 
     }
+
+    private fun getTotalVeniturisiBugete(){
+
+
+    }
+
 }
