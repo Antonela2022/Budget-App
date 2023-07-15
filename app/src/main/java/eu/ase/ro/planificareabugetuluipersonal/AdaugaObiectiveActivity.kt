@@ -44,7 +44,7 @@ class AdaugaObiectiveActivity : AppCompatActivity() {
 
             val nume=tietNumeObiectiv.text.toString().trim()
             val valoare=tietValoareobiectiv.text.toString().trim()
-
+            val status="Necompletat"
 
             if (nume.isEmpty() || nume.isBlank() || nume.length < 3) {
                 Toast.makeText(this, "Vă rugăm să introduceți o denumire validă (minim 3 caractere).", Toast.LENGTH_SHORT).show()
@@ -62,6 +62,7 @@ class AdaugaObiectiveActivity : AppCompatActivity() {
             val obiectiv = hashMapOf(
                 "numeObiectiv" to "${nume}",
                 "valoareObiectiv" to "${valoare}",
+                "status" to "${status}",
                 "idUser" to "${firebaseAuth.currentUser?.uid.toString()}"
             )
 

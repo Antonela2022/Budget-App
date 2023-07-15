@@ -57,7 +57,7 @@ class ObiectiveFragment : Fragment() {
                     Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
                     val denumire=document.getString("numeObiectiv")
                     val valoare=document.getString("valoareObiectiv")?.toDouble()
-                    val status = "Necompletat"
+                    val status = document.getString("status")
 
                     if (denumire != null && valoare != null && status != null) {
                         val obiectiv = Obiectiv(denumire, status, valoare)

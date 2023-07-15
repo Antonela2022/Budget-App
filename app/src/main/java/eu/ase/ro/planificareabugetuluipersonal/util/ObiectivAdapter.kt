@@ -19,7 +19,7 @@ class ObiectivAdapter( private val obiectiveList: ArrayList<Obiectiv>) :
     override fun onBindViewHolder(holder: ObiectivViewHolder, position: Int) {
         val currentItem=obiectiveList[position]
         holder.numeObiectiv.text=currentItem.numeObiectiv
-        holder.status.text= currentItem.status.toString()
+        holder.status.text= currentItem.status
         holder.valoareObiectiv.text=currentItem.valoareObiectiv.toString()
 
     }

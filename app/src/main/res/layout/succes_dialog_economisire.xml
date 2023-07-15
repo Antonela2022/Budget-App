@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/sumaAlocataFondUrgeta"
+        android:hint="Introduceti suma pentru fond de urgenta"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+    <EditText
+        android:id="@+id/sumaAlocatObiectiv"
+        android:hint="Introduceti suma pentru obiectiv"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+        <Button
+            android:id="@+id/btnOKEconomisire"
+            android:text="OK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

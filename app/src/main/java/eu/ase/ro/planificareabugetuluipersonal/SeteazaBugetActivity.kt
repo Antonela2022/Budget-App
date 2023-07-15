@@ -53,18 +53,29 @@ class SeteazaBugetActivity : AppCompatActivity() {
             val suma=tietSumaBuget.text.toString().trim()
             val totalCheltuieli=0.0
 
+            if (suma.isNotEmpty()) {
+                val sumaDouble = suma.toDouble()
+                if(totalBugete+sumaDouble>totalVenituri){
+                    Toast.makeText(
+                        this,
+                        "Total Bugete ${totalBugete} si ${totalVenituri}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    progressBar.visibility = View.GONE
+                    container.visibility = View.VISIBLE
+                    return@setOnClickListener
+                }
 
-
-            if(totalBugete+suma.toDouble()>totalVenituri){
-                Toast.makeText(
-                    this,
-                    "Total Bugete ${totalBugete} si ${totalVenituri}",
-                    Toast.LENGTH_SHORT
-                ).show()
+            } else {
+                Toast.makeText(this, "Vă rugăm să introduceți o sumă validă.", Toast.LENGTH_SHORT).show()
                 progressBar.visibility = View.GONE
                 container.visibility = View.VISIBLE
-                return@setOnClickListener
             }
+
+
+
+
+
             // Verificăm dacă categoria selectată există deja în lista de categorii
             if (categoriiExistente.contains(selectedValue)) {
                 Toast.makeText(
@@ -77,12 +88,9 @@ class SeteazaBugetActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (suma.isEmpty()) {
-                Toast.makeText(this, "Vă rugăm introduceți o sumă validă!", Toast.LENGTH_SHORT).show()
-                progressBar.visibility = View.GONE
-                container.visibility = View.VISIBLE
-                return@setOnClickListener
-            }
+
+
+
 
 
             val bugete = hashMapOf(
