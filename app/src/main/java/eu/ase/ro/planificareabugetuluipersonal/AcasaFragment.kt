@@ -61,7 +61,7 @@ class AcasaFragment : Fragment() {
         val bugetRamas =view.findViewById<TextView>(R.id.popa_antonela_tv_buget_ramas)
         val fondDeUrgenta=view.findViewById<TextView>(R.id.popa_antonela_tv_fond_de_urgente)
         val procentObiectiv=view.findViewById<TextView>(R.id.popa_antonela_tv_progress_bar_procentaj)
-        val progressBar=view.findViewById<ProgressBar>(R.id.progress_bar)
+
         var areObiective=true
         var formatDate= SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val btnAdaugaVenituri=view.findViewById<Button>(R.id.popa_antonela_btn_adauga_venituri)
@@ -299,8 +299,8 @@ class AcasaFragment : Fragment() {
                                             if(sumaObiectiv.toDouble()<valoarePrimObiectiv){
 
                                                 val procentajObiectiv=((sumaObiectiv.toDouble() * 100)/valoarePrimObiectiv).toString()
-//                                                progressBar.progress=procentajObiectiv.toInt()
-                                                procentObiectiv.setText("$procentajObiectiv" + "%")
+
+                                                procentObiectiv.setText("Ai completat $procentajObiectiv" + "% din obicetiv")
                                                 val dialogBuilder = AlertDialog.Builder(requireContext())
                                                     .setTitle("Felicitări!")
                                                     .setMessage("Ati reusit sa completati $procentajObiectiv% din obiectiv! Continuati tot asa!")
