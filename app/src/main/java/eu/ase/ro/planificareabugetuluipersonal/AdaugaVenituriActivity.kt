@@ -20,6 +20,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AdaugaVenituriActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRA_MODE = "extra_mode"
+    }
+
     private lateinit var btnInapoiVenituri: Button
     private lateinit var tietNumeVenit:TextInputEditText
     private lateinit var tietSumaVenit: TextInputEditText
@@ -77,6 +81,7 @@ class AdaugaVenituriActivity : AppCompatActivity() {
             )
 
             db.collection("Venituri")
+
                 .add(venit)
                 .addOnSuccessListener {
                     progressBar.visibility = View.GONE

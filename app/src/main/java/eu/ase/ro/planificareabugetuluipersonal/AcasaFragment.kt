@@ -50,6 +50,7 @@ class AcasaFragment : Fragment() {
     ): View? {
 
         firebaseAuth=FirebaseAuth.getInstance()
+
         var sumaVenituri = 0.0
         var sumaCheltuieli = 0.0
         var sumaBugetRamas = 0.0
@@ -61,16 +62,31 @@ class AcasaFragment : Fragment() {
         val bugetRamas =view.findViewById<TextView>(R.id.popa_antonela_tv_buget_ramas)
         val fondDeUrgenta=view.findViewById<TextView>(R.id.popa_antonela_tv_fond_de_urgente)
         val procentObiectiv=view.findViewById<TextView>(R.id.popa_antonela_tv_progress_bar_procentaj)
+        val salut=view.findViewById<TextView>(R.id.popa_antonela_tv_title_salut)
 
+        db.collection("Utilizatori")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents){
+                    val userName = document.getString("numeUtilizator")
+                    if (userName != null) {
+                        salut.text = "Buna, ${userName} !"
+                    }
+                }
+
+
+            }
         var areObiective=true
         var formatDate= SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val btnAdaugaVenituri=view.findViewById<Button>(R.id.popa_antonela_btn_adauga_venituri)
         val btnAdaugaBugete=view.findViewById<Button>(R.id.popa_antonela_btn_seteaza_buget)
         val btnAdaugaObiective=view.findViewById<Button>(R.id.popa_antonela_btn_seteaza_obiective)
         val btnAdaugaCheltuieli=view.findViewById<Button>(R.id.popa_antonela_btn_adauga_cheltuieli)
+
         btnAdaugaVenituri.setOnClickListener{
-            val Intent= Intent(requireContext(),AdaugaVenituriActivity::class.java)
-            startActivity(Intent)
+            val intent = Intent(requireContext(), AdaugaVenituriActivity::class.java)
+            startActivity(intent)
         }
 
         btnAdaugaBugete.setOnClickListener{
@@ -162,10 +178,7 @@ class AcasaFragment : Fragment() {
                     Log.d("MyApp", "incomeYear: $incomeYear, currentYear: $currentYear")
 
 
-//                    if (incomeDay==currentDay && incomeMonth + 1 == currentMonth && incomeYear == currentYear) {
-//                        Toast.makeText(requireContext(),"E bine",Toast.LENGTH_SHORT).show()
-//                    }
-                    if(incomeDay==currentDay && incomeMonth == currentMonth && incomeYear == currentYear){
+                    if (incomeDay==currentDay && incomeMonth + 1 == currentMonth && incomeYear == currentYear) {
                         Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
 
                         var valoarePrimObiectiv=0.0
@@ -283,7 +296,7 @@ class AcasaFragment : Fragment() {
                                                     }
 
 
-                                            val dialogBuilder = AlertDialog.Builder(requireContext())
+                                                val dialogBuilder = AlertDialog.Builder(requireContext())
                                                     .setTitle("Felicitări!")
                                                     .setMessage("Ati reusit sa va atingeti obiectivul! Continuati tot asa!")
                                                     .setPositiveButton("OK") { dialog, _ ->
@@ -300,7 +313,7 @@ class AcasaFragment : Fragment() {
 
                                                 val procentajObiectiv=((sumaObiectiv.toDouble() * 100)/valoarePrimObiectiv).toString()
 
-                                                procentObiectiv.setText("Ai completat $procentajObiectiv" + "% din obicetiv")
+                                                procentObiectiv.setText("$procentajObiectiv" + "%")
                                                 val dialogBuilder = AlertDialog.Builder(requireContext())
                                                     .setTitle("Felicitări!")
                                                     .setMessage("Ati reusit sa completati $procentajObiectiv% din obiectiv! Continuati tot asa!")
@@ -321,6 +334,162 @@ class AcasaFragment : Fragment() {
                             }
                         }
                     }
+//                    if(incomeDay==currentDay && incomeMonth == currentMonth && incomeYear == currentYear){
+//                        Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
+//
+//                        var valoarePrimObiectiv=0.0
+//                        if (sumaBugetRamas != null) {
+//                            if(sumaBugetRamas<=0){
+//                                val alertDialogBuilder = AlertDialog.Builder(requireContext())
+//                                alertDialogBuilder.setTitle("Atenție")
+//                                alertDialogBuilder.setMessage("Nu ai reușit să economisești luna aceasta.")
+//                                alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+//                                    dialog.dismiss() // Închide fereastra de dialog
+//                                }
+//                                val alertDialog = alertDialogBuilder.create()
+//                                alertDialog.show()
+//
+//                            }
+//                            else{
+//                                db.collection("Obiective")
+//                                    .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+//                                    .get()
+//                                    .addOnSuccessListener { documents ->
+//                                        if (documents.isEmpty) {
+//                                            areObiective = false
+//                                        }else{
+//                                            for (document in documents) {
+//                                                val status = document.getString("status")
+//                                                if (status == "Necompletat") {
+//                                                    valoarePrimObiectiv = document.getString("valoareObiectiv")?.toDouble()!!
+//
+//                                                    break
+//                                                }
+//                                            }
+//                                        }
+//
+//                                        val valoareFondUrgente=0.20*sumaBugetRamas
+//                                        val valoareObiectiv=0.80*sumaBugetRamas
+//
+//                                        Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
+//
+//                                        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.succes_dialog_economisire, null)
+//
+//                                        val builder = AlertDialog.Builder(requireContext())
+//                                            .setView(dialogView)
+//                                            .setTitle("Felicitari!")
+//                                            .setMessage("Ati reusit sa economisiti ${sumaBugetRamas} RON. " +
+//                                                    "Mai jos trebuie sa alegeti cat doriti sa adaugati in fond de urgenta " +
+//                                                    "si cat doriti sa adaugati in obiectiv. Va reamintim ca este de preferat" +
+//                                                    " ca macar 20%  din bugetul ramas sa il adaugati in fond de urgenta ")
+//
+//
+//                                        val alertDialog = builder.show()
+//
+//                                        val inputFondUrgenta = dialogView.findViewById<EditText>(R.id.sumaAlocataFondUrgeta)
+//                                        val inputObiectiv = dialogView.findViewById<EditText>(R.id.sumaAlocatObiectiv)
+//
+//
+//                                        if(!areObiective){
+//                                            inputFondUrgenta.setText("${sumaBugetRamas}")
+//                                            inputObiectiv.setText("0.0")
+//                                            inputObiectiv.isEnabled = false
+//                                            inputObiectiv.isClickable = false
+//                                            inputFondUrgenta.isEnabled = false
+//                                            inputFondUrgenta.isClickable = false
+//
+//                                        }else{
+//                                            inputFondUrgenta.setText("${valoareFondUrgente}")
+//                                            inputObiectiv.setText("${valoareObiectiv}")
+//                                        }
+//
+//                                        alertDialog.setCancelable(false)
+//
+//                                        val btnOKDialog = dialogView.findViewById<Button>(R.id.btnOKEconomisire)
+//                                        btnOKDialog.setOnClickListener {
+//                                            val sumaFondUrgenta=inputFondUrgenta.text.toString()
+//                                            val sumaObiectiv = inputObiectiv.text.toString()
+//
+//                                            if (sumaObiectiv.isEmpty()) {
+//                                                Toast.makeText(requireContext(), "Introduceți o sumă validă pentru obiectiv", Toast.LENGTH_SHORT).show()
+//                                                return@setOnClickListener
+//                                            }
+//
+//                                            if (sumaFondUrgenta.isEmpty()) {
+//                                                Toast.makeText(requireContext(), "Introduceți o sumă validă pentru fond de urgență", Toast.LENGTH_SHORT).show()
+//                                                return@setOnClickListener
+//
+//                                            }
+//                                            if(sumaObiectiv.toDouble() + sumaFondUrgenta.toDouble()!=sumaBugetRamas){
+//                                                Toast.makeText(requireContext(), "Adunarea celor doua sume trebuie sa fie egala cu bugetul ramas.Va rugam introduceti sume valide!", Toast.LENGTH_SHORT).show()
+//                                                return@setOnClickListener
+//                                            }
+//
+//                                            if(sumaObiectiv.toDouble()>valoarePrimObiectiv){
+//                                                Toast.makeText(requireContext(), "Suma introdusa in obiectiv este mai mare decat valoarea obiectivului de ${valoarePrimObiectiv}", Toast.LENGTH_SHORT).show()
+//                                                return@setOnClickListener
+//                                            }
+//                                            bugetRamas.setText("Buget Ramas : 0.0")
+//
+//                                            fondDeUrgenta.setText("Fond de urgenta :"+ sumaFondUrgenta.toDouble().toString())
+//                                            alertDialog.dismiss()
+//
+//                                            if(sumaObiectiv.toDouble()==valoarePrimObiectiv){
+//                                                db.collection("Obiective")
+//                                                    .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+//                                                    .get()
+//                                                    .addOnSuccessListener { documents ->
+//                                                        for (document in documents) {
+//                                                            val status = document.getString("status")
+//                                                            if (status.equals("Necompletat")) {
+//                                                                db.collection("Obiective")
+//                                                                    .document(document.id)
+//                                                                    .update("status", "Completat")
+//
+//                                                                break
+//                                                            }
+//                                                        }
+//                                                    }
+//
+//
+//                                            val dialogBuilder = AlertDialog.Builder(requireContext())
+//                                                    .setTitle("Felicitări!")
+//                                                    .setMessage("Ati reusit sa va atingeti obiectivul! Continuati tot asa!")
+//                                                    .setPositiveButton("OK") { dialog, _ ->
+//
+//                                                        dialog.dismiss()
+//                                                    }
+//                                                val alertDialog = dialogBuilder.create()
+//                                                alertDialog.show()
+//
+//                                            }
+//
+//
+//                                            if(sumaObiectiv.toDouble()<valoarePrimObiectiv){
+//
+//                                                val procentajObiectiv=((sumaObiectiv.toDouble() * 100)/valoarePrimObiectiv).toString()
+//
+//                                                procentObiectiv.setText("$procentajObiectiv" + "%")
+//                                                val dialogBuilder = AlertDialog.Builder(requireContext())
+//                                                    .setTitle("Felicitări!")
+//                                                    .setMessage("Ati reusit sa completati $procentajObiectiv% din obiectiv! Continuati tot asa!")
+//                                                    .setPositiveButton("OK") { dialog, _ ->
+//
+//                                                        dialog.dismiss()
+//                                                    }
+//                                                val alertDialog = dialogBuilder.create()
+//                                                alertDialog.show()
+//
+//                                            }
+//                                        }
+//                                    }
+//                                    .addOnFailureListener { exception ->
+//                                        Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+//                                    }
+//
+//                            }
+//                        }
+//                    }
                 }
 
             }

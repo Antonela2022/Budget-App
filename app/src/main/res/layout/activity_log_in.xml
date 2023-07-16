@@ -46,7 +46,7 @@
                     style="@style/TietTextColor.BackgroundColor"
                     android:padding="20dp"
                     android:textSize="16dp"
-                    android:hint="@string/nume_utilizatior_login" />
+                    android:hint="@string/email" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

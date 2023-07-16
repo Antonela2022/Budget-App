@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/modifica_venit_proveninenta"
+        android:hint="Nume venit "
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+    <EditText
+        android:id="@+id/modifica_venit_suma"
+        android:hint="Suma venit"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </EditText>
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/modifica_venit_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="01/01/2023"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            />
+        <TextView
+            android:id="@+id/tv_modif_venit_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Este un venit fix?"
+
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/tip_venit_swich"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:checked="true"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+
+            android:textOn="Fix"
+            android:textOff="Ocazional"
+
+            />
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_inapoi_modifificari_venituri"
+            android:text="Inapoi"
+            android:layout_marginEnd="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btn_salveaza_modificari_venituri"
+            android:text="Salveaza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+
+    </LinearLayout>
+
+</LinearLayout>

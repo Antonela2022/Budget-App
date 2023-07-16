@@ -109,7 +109,7 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
                 container.visibility = View.VISIBLE
                 return@setOnClickListener
             }
-            val venit = hashMapOf(
+            val cheltuiala = hashMapOf(
                 "categorie" to "${categorieChetuiala}",
                 "data" to "${data}",
                 "nume" to "${nume}",
@@ -118,7 +118,7 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
             )
 
             db.collection("Cheltuieli")
-                .add(venit)
+                .add(cheltuiala)
                 .addOnSuccessListener {
                     progressBar.visibility = View.GONE
                     //actualizare total cheltuieli-bugete

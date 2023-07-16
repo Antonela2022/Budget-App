@@ -69,4 +69,6 @@
         app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popa_antonela_lv_venituri" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

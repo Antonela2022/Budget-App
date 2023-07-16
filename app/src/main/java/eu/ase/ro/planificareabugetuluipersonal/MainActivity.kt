@@ -1,39 +1,66 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
-import android.app.Activity
+
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
+
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
+
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
-    companion object {
-        private const val ADD_CHELTUIELI_REQUEST_CODE = 1
-    }
     private lateinit var drawerLayout: DrawerLayout
-
+    private lateinit var headerUserNameTextView: TextView
+    private lateinit var firebaseAuth: FirebaseAuth
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         drawerLayout=findViewById<DrawerLayout>(R.id.drawer_layout)
 
+
         val toolbar=findViewById<Toolbar>(R.id.toolbar_main)
         setSupportActionBar(toolbar)
 
         val navigationView=findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+
+        val headerView = navigationView.getHeaderView(0)
+        headerUserNameTextView = headerView.findViewById(R.id.popa_antonela_tv_header_user_name)
+
+
+        firebaseAuth= FirebaseAuth.getInstance()
+
+            db.collection("Utilizatori")
+                .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                .get()
+                .addOnSuccessListener { documents ->
+                    for(document in documents){
+                        val userName = document.getString("numeUtilizator")
+                        if (userName != null) {
+                            headerUserNameTextView.text = userName
+                        }
+                    }
+
+
+                }
+
+
 
         val toggle=ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close)
         drawerLayout.addDrawerListener(toggle)

@@ -159,6 +159,8 @@
     <string name="close">close</string>
     <string name="selecteaza_data_incasarii">Selecteaza data incasarii</string>
     <string name="bugete_si_cheltuieli">Bugete si cheltuieli</string>
+    <string name="email">Email</string>
+    <string name="data">Data</string>
 
 
     <string-array name="spn_categorii_cheltuieli">
