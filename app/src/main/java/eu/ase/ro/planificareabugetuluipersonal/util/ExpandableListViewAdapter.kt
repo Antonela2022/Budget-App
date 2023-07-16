@@ -47,7 +47,7 @@ class ExpandableListViewAdapter internal constructor(private val context:Context
         parent: ViewGroup?
     ): View {
         var convertView = convertView
-        val bugeteInfo= getGroup(groupPosition) as Buget // Presupunând că obiectul grupului este de tip Buget
+        val bugeteInfo= getGroup(groupPosition) as Buget
 
 
         if (convertView == null) {

@@ -12,15 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import eu.ase.ro.planificareabugetuluipersonal.util.Obiectiv
-import eu.ase.ro.planificareabugetuluipersonal.util.ObiectivAdapter
+import eu.ase.ro.planificareabugetuluipersonal.util.*
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class ObiectiveFragment : Fragment() {
+class ObiectiveFragment : Fragment(), OnUpdateListener, OnDeleteListener {
     private lateinit var adapter: ObiectivAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var obiectiveList:ArrayList<Obiectiv>
@@ -79,7 +78,44 @@ class ObiectiveFragment : Fragment() {
         adapter = ObiectivAdapter(obiectiveList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter.setOnObiectivUpdateListener(this)
+        adapter.setOnObiectivDeleteListener(this)
     }
 
+    override fun deleted() {
+        refreshRecyclerView()
+    }
+
+    override fun updated() {
+        refreshRecyclerView()
+    }
+    private fun refreshRecyclerView() {
+
+        val updatedObiectiveList = ArrayList<Obiectiv>()
+
+        db.collection("Obiective")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val denumire = document.getString("numeObiectiv")
+                    val suma = document.getString("valoareObiectiv")?.toDouble()
+                    val status = document.getString("status")
+
+                    if (denumire != null && suma != null && status != null) {
+                        val obiectiv = Obiectiv(denumire, status, suma)
+                        updatedObiectiveList.add(obiectiv)
+                    }
+                }
+
+                obiectiveList.clear()
+                obiectiveList.addAll(updatedObiectiveList)
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+    }
 
 }

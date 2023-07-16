@@ -3,7 +3,6 @@ package eu.ase.ro.planificareabugetuluipersonal.util
 
 import android.app.DatePickerDialog
 import android.content.ContentValues
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +10,18 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import eu.ase.ro.planificareabugetuluipersonal.R
-import eu.ase.ro.planificareabugetuluipersonal.VenituriFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
 class VenitAdapter( private val venituriList: ArrayList<Venit>) :
     RecyclerView.Adapter<VenitAdapter.VenitViewHolder>() {
     private lateinit var firebaseAuth: FirebaseAuth
-    private var venitUpdateListener: OnVenitUpdateListener? = null
-    private var venitDeleteListener: OnVenitDeleteListener? = null
+    private var venitUpdateListener: OnUpdateListener? = null
+    private var venitDeleteListener: OnDeleteListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenitViewHolder {
         val itemView=LayoutInflater.from(parent.context).inflate(R.layout.lv_row_venituri_item,parent,false)
@@ -46,11 +43,11 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
 
     }
 
-    fun setOnVenitUpdateListener(listener: OnVenitUpdateListener) {
+    fun setOnVenitUpdateListener(listener: OnUpdateListener) {
         venitUpdateListener = listener
     }
 
-    fun setOnVenitDeleteListener(listener: OnVenitDeleteListener) {
+    fun setOnVenitDeleteListener(listener: OnDeleteListener) {
         venitDeleteListener = listener
     }
 
@@ -173,17 +170,17 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                                             .addOnSuccessListener {
                                                 Toast.makeText(
                                                     v.context,
-                                                    "Data venitului a fost actualizată cu succes.",
+                                                    "Datele au fost actualizate cu succes!",
                                                     Toast.LENGTH_SHORT
                                                 ).show()
 
-                                                venitUpdateListener?.onVenitUpdated()
+                                                venitUpdateListener?.updated()
                                                 notifyDataSetChanged()
                                             }
                                             .addOnFailureListener { e ->
                                                 Toast.makeText(
                                                     v.context,
-                                                    "Eroare la actualizarea datei venitului: ${e.message}",
+                                                    "Eroare la actualizarea datelor: ${e.message}",
                                                     Toast.LENGTH_SHORT
                                                 ).show()
 
@@ -265,7 +262,7 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                                                         Toast.LENGTH_SHORT
                                                     ).show()
 
-                                                    venitDeleteListener?.onVenitDeleted()
+                                                    venitDeleteListener?.deleted()
                                                     notifyDataSetChanged()
                                                 }
                                                 .addOnFailureListener { e ->

@@ -1,21 +1,19 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
 import android.content.ContentValues
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import eu.ase.ro.planificareabugetuluipersonal.util.OnVenitDeleteListener
-import eu.ase.ro.planificareabugetuluipersonal.util.OnVenitUpdateListener
+import eu.ase.ro.planificareabugetuluipersonal.util.OnDeleteListener
+import eu.ase.ro.planificareabugetuluipersonal.util.OnUpdateListener
 import eu.ase.ro.planificareabugetuluipersonal.util.Venit
 import eu.ase.ro.planificareabugetuluipersonal.util.VenitAdapter
 
@@ -23,7 +21,7 @@ import eu.ase.ro.planificareabugetuluipersonal.util.VenitAdapter
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class VenituriFragment : Fragment(), OnVenitUpdateListener , OnVenitDeleteListener {
+class VenituriFragment : Fragment(), OnUpdateListener , OnDeleteListener {
 
     private lateinit var adapter: VenitAdapter
     private lateinit var recyclerView: RecyclerView
@@ -95,11 +93,11 @@ class VenituriFragment : Fragment(), OnVenitUpdateListener , OnVenitDeleteListen
         adapter.setOnVenitDeleteListener(this)
     }
 
-    override fun onVenitUpdated() {
+    override fun updated() {
         refreshRecyclerView()
     }
 
-    override fun onVenitDeleted() {
+    override fun deleted() {
         refreshRecyclerView()
     }
 
