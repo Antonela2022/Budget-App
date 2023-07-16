@@ -9,25 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.ContextCompat.startActivity
-
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import eu.ase.ro.planificareabugetuluipersonal.AdaugaVenituriActivity
-import eu.ase.ro.planificareabugetuluipersonal.LogInActivity
-
 import eu.ase.ro.planificareabugetuluipersonal.R
+import eu.ase.ro.planificareabugetuluipersonal.VenituriFragment
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class VenitAdapter( private val venituriList: ArrayList<Venit>) :
     RecyclerView.Adapter<VenitAdapter.VenitViewHolder>() {
     private lateinit var firebaseAuth: FirebaseAuth
+    private var venitUpdateListener: OnVenitUpdateListener? = null
+    private var venitDeleteListener: OnVenitDeleteListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenitViewHolder {
         val itemView=LayoutInflater.from(parent.context).inflate(R.layout.lv_row_venituri_item,parent,false)
@@ -49,6 +46,14 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
 
     }
 
+    fun setOnVenitUpdateListener(listener: OnVenitUpdateListener) {
+        venitUpdateListener = listener
+    }
+
+    fun setOnVenitDeleteListener(listener: OnVenitDeleteListener) {
+        venitDeleteListener = listener
+    }
+
     private fun popupMenus(v:View,currentItem:Venit) {
         var formatDate= SimpleDateFormat("dd/MM/yyyy",Locale.US)
 
@@ -62,7 +67,7 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                     val inputsumaVenit=dialog.findViewById<EditText>(R.id.modifica_venit_suma)
                     val inputdata=dialog.findViewById<Button>(R.id.modifica_venit_data)
                     val inputtipVenit=dialog.findViewById<SwitchCompat>(R.id.tip_venit_swich)
-                    val inputbtnInapoi=dialog.findViewById<Button>(R.id.btn_inapoi_modifificari_venituri)
+                    val btnInapoi=dialog.findViewById<Button>(R.id.btn_inapoi_modifificari_venituri)
                     val btnSalveaza=dialog.findViewById<Button>(R.id.btn_salveaza_modificari_venituri)
 
 
@@ -118,8 +123,7 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                     btnSalveaza.setOnClickListener {
                         val numeVenit=inputnumeVenit.text.toString()
                         val sumaVenit=inputsumaVenit.text.toString()
-                        val data=inputdata.text.toString().trim()
-                        val tipVenit = inputtipVenit.isChecked
+
 
                         if (numeVenit.isEmpty() || numeVenit.isBlank() || numeVenit.length < 3) {
                             Toast.makeText(v.context, "Vă rugăm să introduceți o denumire validă (minim 3 caractere).", Toast.LENGTH_SHORT).show()
@@ -130,11 +134,7 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                             Toast.makeText(v.context, "Vă rugăm să introduceți o sumă validă.", Toast.LENGTH_SHORT).show()
                             return@setOnClickListener
                         }
-//
-//                        Log.d(ContentValues.TAG,"Curent value ${currentItem.tipVenit}")
-//                        Log.d(ContentValues.TAG,"Curent value ${currentItem.zi}")
-//                        Log.d(ContentValues.TAG,"Curent value ${currentItem.denumire}")
-//                        Log.d(ContentValues.TAG,"Curent value ${currentItem.suma}")
+
 
                         val db = FirebaseFirestore.getInstance()
                         firebaseAuth = FirebaseAuth.getInstance()
@@ -151,17 +151,18 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
 
                                     Log.d(ContentValues.TAG,"${numeBd}, ${sumaBd}, ${ziBd} , ${tipBd}")
 
-//                                    Log.d(ContentValues.TAG,"${currentItem.denumire}, ${currentItem.suma.toString()}, ${currentItem.zi} , ${currentItem.tipVenit.toString()}")
 
                                     if (numeBd.equals(currentItem.denumire)
                                         && sumaBd==currentItem.suma
                                         && ziBd.equals(currentItem.zi)
                                         && tipBd==currentItem.tipVenit)
+
                                     {
 
                                         Log.d(ContentValues.TAG,"${currentItem.denumire}, ${currentItem.suma.toString()}, ${currentItem.zi} , ${currentItem.tipVenit.toString()}")
                                         val documentId = document.id
                                         val dataset = hashMapOf(
+                                            "idUser" to firebaseAuth.currentUser?.uid.toString(),
                                             "nume" to inputnumeVenit.text.toString(),
                                             "suma" to inputsumaVenit.text.toString(),
                                             "zi" to inputdata.text.toString().trim(),
@@ -175,6 +176,9 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                                                     "Data venitului a fost actualizată cu succes.",
                                                     Toast.LENGTH_SHORT
                                                 ).show()
+
+                                                venitUpdateListener?.onVenitUpdated()
+                                                notifyDataSetChanged()
                                             }
                                             .addOnFailureListener { e ->
                                                 Toast.makeText(
@@ -184,28 +188,103 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
                                                 ).show()
 
                                             }
+
                                     }
 
                                 }
                             }
-//                            .addOnFailureListener { e ->
-//                                Toast.makeText(
-//                                    v.context,
-//                                    "Eroare la căutarea venitului: ${e.message}",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
 
 
                         alertDialog.dismiss()
 
                     }
 
-
+                    btnInapoi.setOnClickListener {
+                        alertDialog.dismiss()
+                    }
                         true
                 }
                 R.id.delete->{
-                    Toast.makeText(v.context,"Delete a fost selectat",Toast.LENGTH_SHORT).show()
+
+                    val dialogBuilder = AlertDialog.Builder(v.context)
+                    dialogBuilder.setTitle("Ștergere venit")
+                    dialogBuilder.setMessage("Sigur doriți să ștergeți acest venit?")
+                    dialogBuilder.setPositiveButton("Șterge") { _, _ ->
+
+
+                        val dialog=LayoutInflater.from(v.context).inflate(R.layout.modifica_venit_dialog,null)
+                        val inputnumeVenit = dialog.findViewById<EditText>(R.id.modifica_venit_proveninenta)
+                        val inputsumaVenit=dialog.findViewById<EditText>(R.id.modifica_venit_suma)
+                        val inputdata=dialog.findViewById<Button>(R.id.modifica_venit_data)
+
+
+                        dialogBuilder.setCancelable(false)
+
+
+
+
+
+
+                        inputnumeVenit.setText(currentItem.denumire)
+                        inputsumaVenit.setText(currentItem.suma.toString())
+                        inputdata.text = currentItem.zi
+
+                            val db = FirebaseFirestore.getInstance()
+                            firebaseAuth = FirebaseAuth.getInstance()
+                            db.collection("Venituri")
+                                .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                                .get()
+                                .addOnSuccessListener { documents ->
+                                    for (document in documents) {
+
+                                        val numeBd=document.getString("nume")
+                                        val sumaBd=document.getString("suma")?.toDouble()
+                                        val ziBd=document.getString("zi")
+                                        val tipBd=document.getString("tipVenit").toBoolean()
+
+                                        Log.d(ContentValues.TAG,"${numeBd}, ${sumaBd}, ${ziBd} , ${tipBd}")
+
+
+                                        if (numeBd.equals(currentItem.denumire)
+                                            && sumaBd==currentItem.suma
+                                            && ziBd.equals(currentItem.zi)
+                                            && tipBd==currentItem.tipVenit)
+
+                                        {
+
+                                            Log.d(ContentValues.TAG,"${currentItem.denumire}, ${currentItem.suma.toString()}, ${currentItem.zi} , ${currentItem.tipVenit.toString()}")
+                                            val documentId = document.id
+
+                                            db.collection("Venituri")
+                                                .document(documentId)
+                                                .delete()
+                                                .addOnSuccessListener {
+                                                    Toast.makeText(
+                                                        v.context,
+                                                        "Data venitului a fost actualizată cu succes.",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+
+                                                    venitDeleteListener?.onVenitDeleted()
+                                                    notifyDataSetChanged()
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    Toast.makeText(
+                                                        v.context,
+                                                        "Eroare la actualizarea datei venitului: ${e.message}",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+
+                                                }
+
+                                        }
+
+                                    }
+                                }
+
+                    }
+                    dialogBuilder.setNegativeButton("Anulare", null)
+                    dialogBuilder.create().show()
                     true
                 }
                 else->true
@@ -219,6 +298,8 @@ class VenitAdapter( private val venituriList: ArrayList<Venit>) :
         menu.javaClass.getDeclaredMethod("setForceShowIcon",Boolean::class.java)
             .invoke(menu,true)
     }
+
+
 
     override fun getItemCount(): Int {
         return venituriList.size
