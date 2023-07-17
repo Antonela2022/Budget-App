@@ -33,36 +33,17 @@
         android:id="@+id/popa_antonela_lv_obiective"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/popa_antonela_marina_narcisa_btn_lv_obiective_modifica"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popa_antonela_tv_title_obiective"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/lv_row_obiective_item"
         android:scrollbars="vertical"/>
 
-    <Button
-        android:id="@+id/popa_antonela_marina_narcisa_btn_lv_obiective_modifica"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/modifica_obiective"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.87"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_lv_obiective" />
 
-    <Button
-        android:id="@+id/popa_antonela_marina_narcisa_btn_lv_obiective_sterge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/sterge_obiective"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popa_antonela_lv_obiective" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

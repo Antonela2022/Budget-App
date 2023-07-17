@@ -16,7 +16,7 @@ import eu.ase.ro.planificareabugetuluipersonal.util.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class BugeteCheltuieliFragment : Fragment() {
+class BugeteCheltuieliFragment : Fragment() , OnUpdateListener , OnDeleteListener {
 
     private lateinit var expandableListView: ExpandableListView
     private lateinit var adapter: ExpandableListViewAdapter
@@ -100,7 +100,80 @@ class BugeteCheltuieliFragment : Fragment() {
 
         adapter = ExpandableListViewAdapter(requireContext(), listaBugete, listaCheltuieli)
         expandableListView.setAdapter(adapter)
+        adapter.setOnCheltuialaUpdateListener(this)
+        adapter.setOnCheltuialaDeleteListener(this)
+        adapter.setOnCategorieDeleteListener(this)
         return view
+    }
+
+    override fun updated() {
+        refreshRecyclerView()
+    }
+
+    override fun deleted() {
+        refreshRecyclerView()
+        refreshRecyclerViewCategory()
+
+    }
+
+    private fun refreshRecyclerViewCategory() {
+        val updateBugeteList = ArrayList<Buget>()
+
+        db.collection("Bugete")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val suma = document.getString("suma")?.toDouble()
+                    val totalCheltuieli = document.getString("totalCheltuieli")?.toDouble()
+                    val categorie = document.getString("categorie")
+
+                    if ( suma != null && totalCheltuieli != null && categorie != null) {
+                        val buget = Buget(categorie, totalCheltuieli , suma)
+                        updateBugeteList.add(buget)
+                    }
+                }
+
+                listaBugete.clear()
+                listaBugete.addAll(updateBugeteList)
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+    }
+
+
+    private fun refreshRecyclerView() {
+
+        val updatedCheltuieliList = ArrayList<Cheltuiala>()
+
+        db.collection("Cheltuieli")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val denumire = document.getString("nume")
+                    val suma = document.getString("suma")?.toDouble()
+                    val data = document.getString("data")
+                    val categorie = document.getString("categorie")
+
+                    if (denumire != null && suma != null && data != null && categorie != null) {
+                        val cheltuiala = Cheltuiala(categorie, data, denumire, suma)
+                        updatedCheltuieliList.add(cheltuiala)
+                    }
+                }
+
+                listaCheltuieli.clear()
+                listaCheltuieli.addAll(updatedCheltuieliList)
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
     }
 }
 
