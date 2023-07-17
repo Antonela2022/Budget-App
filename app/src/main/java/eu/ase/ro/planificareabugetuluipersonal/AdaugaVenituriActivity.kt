@@ -81,7 +81,6 @@ class AdaugaVenituriActivity : AppCompatActivity() {
             )
 
             db.collection("Venituri")
-
                 .add(venit)
                 .addOnSuccessListener {
                     progressBar.visibility = View.GONE

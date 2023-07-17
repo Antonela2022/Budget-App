@@ -1,9 +1,8 @@
 package eu.ase.ro.planificareabugetuluipersonal
 
 import android.app.ProgressDialog.show
-import android.content.ContentValues
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
+import android.content.ContentValues.TAG
 
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +32,9 @@ class AcasaFragment : Fragment() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     val db = Firebase.firestore
+
+    private lateinit var sharedPreferences: SharedPreferences
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,6 +117,14 @@ class AcasaFragment : Fragment() {
         var maxVenit = 0.0
         var dataVenitMaxim: Date? = null
 
+
+
+        sharedPreferences = requireContext().getSharedPreferences("MyPrefs_${firebaseAuth.currentUser?.uid}", Context.MODE_PRIVATE)
+        val currentMonthVenit = Calendar.getInstance().get(Calendar.MONTH)
+        val isDialogShown = sharedPreferences.getBoolean("dialogShown_${firebaseAuth.currentUser?.uid}_$currentMonthVenit", false)
+
+
+
         //afisare fereastra pop-up la sfarsitul lunii
         db.collection("Venituri")
             .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
@@ -178,9 +188,9 @@ class AcasaFragment : Fragment() {
                     Log.d("MyApp", "incomeYear: $incomeYear, currentYear: $currentYear")
 
 
-                    if (incomeDay==currentDay && incomeMonth + 1 == currentMonth && incomeYear == currentYear) {
+                    if (incomeDay==currentDay && incomeMonth == currentMonth && incomeYear == currentYear) {
                         Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
-
+                        if (!isDialogShown ) {
                         var valoarePrimObiectiv=0.0
                         if (sumaBugetRamas != null) {
                             if(sumaBugetRamas<=0){
@@ -195,13 +205,14 @@ class AcasaFragment : Fragment() {
 
                             }
                             else{
+                                var esteCompletat=false
                                 db.collection("Obiective")
                                     .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
                                     .get()
                                     .addOnSuccessListener { documents ->
                                         if (documents.isEmpty) {
                                             areObiective = false
-                                        }else{
+                                        }else  {
                                             for (document in documents) {
                                                 val status = document.getString("status")
                                                 if (status == "Necompletat") {
@@ -209,6 +220,13 @@ class AcasaFragment : Fragment() {
 
                                                     break
                                                 }
+                                                else{
+                                                    if(status=="Completat")
+                                                    {
+                                                        esteCompletat=true
+                                                    }
+                                                }
+
                                             }
                                         }
 
@@ -221,8 +239,9 @@ class AcasaFragment : Fragment() {
 
                                         val builder = AlertDialog.Builder(requireContext())
                                             .setView(dialogView)
-                                            .setTitle("Felicitari!")
-                                            .setMessage("Ati reusit sa economisiti ${sumaBugetRamas} RON. " +
+                                            .setTitle("Rezumat!")
+                                            .setMessage("")
+                                            .setMessage("Felicitari!Ati reusit sa economisiti ${sumaBugetRamas} RON. " +
                                                     "Mai jos trebuie sa alegeti cat doriti sa adaugati in fond de urgenta " +
                                                     "si cat doriti sa adaugati in obiectiv. Va reamintim ca este de preferat" +
                                                     " ca macar 20%  din bugetul ramas sa il adaugati in fond de urgenta ")
@@ -234,7 +253,7 @@ class AcasaFragment : Fragment() {
                                         val inputObiectiv = dialogView.findViewById<EditText>(R.id.sumaAlocatObiectiv)
 
 
-                                        if(!areObiective){
+                                        if(!areObiective || esteCompletat){
                                             inputFondUrgenta.setText("${sumaBugetRamas}")
                                             inputObiectiv.setText("0.0")
                                             inputObiectiv.isEnabled = false
@@ -245,6 +264,7 @@ class AcasaFragment : Fragment() {
                                         }else{
                                             inputFondUrgenta.setText("${valoareFondUrgente}")
                                             inputObiectiv.setText("${valoareObiectiv}")
+
                                         }
 
                                         alertDialog.setCancelable(false)
@@ -273,9 +293,8 @@ class AcasaFragment : Fragment() {
                                                 Toast.makeText(requireContext(), "Suma introdusa in obiectiv este mai mare decat valoarea obiectivului de ${valoarePrimObiectiv}", Toast.LENGTH_SHORT).show()
                                                 return@setOnClickListener
                                             }
-                                            bugetRamas.setText("Buget Ramas : 0.0")
 
-                                            fondDeUrgenta.setText("Fond de urgenta :"+ sumaFondUrgenta.toDouble().toString())
+
                                             alertDialog.dismiss()
 
                                             if(sumaObiectiv.toDouble()==valoarePrimObiectiv){
@@ -296,15 +315,21 @@ class AcasaFragment : Fragment() {
                                                     }
 
 
-                                                val dialogBuilder = AlertDialog.Builder(requireContext())
-                                                    .setTitle("Felicitări!")
-                                                    .setMessage("Ati reusit sa va atingeti obiectivul! Continuati tot asa!")
-                                                    .setPositiveButton("OK") { dialog, _ ->
+                                                if(!areObiective || esteCompletat){
 
-                                                        dialog.dismiss()
-                                                    }
-                                                val alertDialog = dialogBuilder.create()
-                                                alertDialog.show()
+                                                }else{
+                                                    val dialogBuilder = AlertDialog.Builder(requireContext())
+                                                        .setTitle("Felicitări!")
+                                                        .setMessage("Ati reusit sa va atingeti obiectivul! Continuati tot asa!")
+                                                        .setPositiveButton("OK") { dialog, _ ->
+
+                                                            dialog.dismiss()
+                                                        }
+                                                    val alertDialog = dialogBuilder.create()
+                                                    alertDialog.show()
+                                                }
+
+
 
                                             }
 
@@ -325,171 +350,110 @@ class AcasaFragment : Fragment() {
                                                 alertDialog.show()
 
                                             }
+
+
+
+
+
+                                            db.collection("Venituri")
+                                                .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                                                .get()
+                                                .addOnSuccessListener { documents ->
+                                                    for (document in documents) {
+                                                        val documentId = document.id
+                                                        Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                                                        val tipVenit = document.getString("tipVenit")?.toBoolean()
+                                                        if (tipVenit == false) {
+                                                            db.collection("Venituri")
+                                                                .document(documentId)
+                                                                .delete()
+                                                        }
+
+                                                    }
+                                                    var sumaTotalVenituriUpdated = 0.0
+                                                    db.collection("Venituri")
+                                                        .whereEqualTo(
+                                                            "idUser",
+                                                            firebaseAuth.currentUser?.uid.toString()
+                                                        )
+                                                        .get()
+                                                        .addOnSuccessListener { documents ->
+                                                            for (document in documents) {
+
+                                                                val venit = document.getString("suma")?.toDouble()
+                                                                if (venit != null) {
+                                                                    sumaTotalVenituriUpdated = sumaTotalVenituriUpdated + venit
+                                                                }
+                                                            }
+                                                            totalVenituri.setText("Total Venituri: ${sumaTotalVenituriUpdated}")
+                                                        }
+                                                }
+
+
+                                            db.collection("Cheltuieli")
+                                                .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                                                .get()
+                                                .addOnSuccessListener { documents ->
+                                                    for (document in documents) {
+                                                        val documentId = document.id
+                                                        db.collection("Cheltuieli")
+                                                            .document(documentId)
+                                                            .delete()
+                                                    }
+                                                    var sumaTotalCheltuieliUpdated = 0.0
+                                                    db.collection("Cheltuieli")
+                                                        .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+                                                        .get()
+                                                        .addOnSuccessListener { documents ->
+                                                            for (document in documents) {
+                                                                val cheltuiala =
+                                                                    document.getString("suma")
+                                                                        ?.toDouble()
+                                                                if (cheltuiala != null) {
+                                                                    sumaTotalCheltuieliUpdated = sumaTotalCheltuieliUpdated + cheltuiala
+
+                                                                }
+
+                                                            }
+                                                            totalCheltuieli.setText("Total Cheltuieli : ${sumaTotalCheltuieliUpdated}")
+
+                                                        }
+                                                }
+
+                                            val dateFinal = hashMapOf(
+                                                "fondUrgenta" to "${sumaFondUrgenta}",
+                                                "sumaObiectiv" to "${sumaObiectiv}",
+                                                "idUser" to "${firebaseAuth.currentUser?.uid.toString()}"
+                                            )
+
+
+                                            db.collection("DateFinal")
+                                                .add(dateFinal)
+                                                .addOnSuccessListener { documentReference ->
+                                                    Log.d(TAG, "Document added with ID: ${documentReference.id}")
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    Log.w(TAG, "Error adding document", e)
+                                                }
+
+
+
+                                            fragmentManager?.beginTransaction()
+                                                ?.replace(R.id.main_frame_container, AcasaFragment())
+                                                ?.commit()
+
+                                            sharedPreferences.edit()
+                                                .putBoolean("dialogShown_${firebaseAuth.currentUser?.uid}_$currentMonthVenit", true)
+                                                .apply()
                                         }
                                     }
                                     .addOnFailureListener { exception ->
                                         Log.w(ContentValues.TAG, "Error getting documents: ", exception)
                                     }
-
-                            }
-                        }
+                              }
+                          }
+                       }
                     }
-//                    if(incomeDay==currentDay && incomeMonth == currentMonth && incomeYear == currentYear){
-//                        Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
-//
-//                        var valoarePrimObiectiv=0.0
-//                        if (sumaBugetRamas != null) {
-//                            if(sumaBugetRamas<=0){
-//                                val alertDialogBuilder = AlertDialog.Builder(requireContext())
-//                                alertDialogBuilder.setTitle("Atenție")
-//                                alertDialogBuilder.setMessage("Nu ai reușit să economisești luna aceasta.")
-//                                alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-//                                    dialog.dismiss() // Închide fereastra de dialog
-//                                }
-//                                val alertDialog = alertDialogBuilder.create()
-//                                alertDialog.show()
-//
-//                            }
-//                            else{
-//                                db.collection("Obiective")
-//                                    .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
-//                                    .get()
-//                                    .addOnSuccessListener { documents ->
-//                                        if (documents.isEmpty) {
-//                                            areObiective = false
-//                                        }else{
-//                                            for (document in documents) {
-//                                                val status = document.getString("status")
-//                                                if (status == "Necompletat") {
-//                                                    valoarePrimObiectiv = document.getString("valoareObiectiv")?.toDouble()!!
-//
-//                                                    break
-//                                                }
-//                                            }
-//                                        }
-//
-//                                        val valoareFondUrgente=0.20*sumaBugetRamas
-//                                        val valoareObiectiv=0.80*sumaBugetRamas
-//
-//                                        Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
-//
-//                                        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.succes_dialog_economisire, null)
-//
-//                                        val builder = AlertDialog.Builder(requireContext())
-//                                            .setView(dialogView)
-//                                            .setTitle("Felicitari!")
-//                                            .setMessage("Ati reusit sa economisiti ${sumaBugetRamas} RON. " +
-//                                                    "Mai jos trebuie sa alegeti cat doriti sa adaugati in fond de urgenta " +
-//                                                    "si cat doriti sa adaugati in obiectiv. Va reamintim ca este de preferat" +
-//                                                    " ca macar 20%  din bugetul ramas sa il adaugati in fond de urgenta ")
-//
-//
-//                                        val alertDialog = builder.show()
-//
-//                                        val inputFondUrgenta = dialogView.findViewById<EditText>(R.id.sumaAlocataFondUrgeta)
-//                                        val inputObiectiv = dialogView.findViewById<EditText>(R.id.sumaAlocatObiectiv)
-//
-//
-//                                        if(!areObiective){
-//                                            inputFondUrgenta.setText("${sumaBugetRamas}")
-//                                            inputObiectiv.setText("0.0")
-//                                            inputObiectiv.isEnabled = false
-//                                            inputObiectiv.isClickable = false
-//                                            inputFondUrgenta.isEnabled = false
-//                                            inputFondUrgenta.isClickable = false
-//
-//                                        }else{
-//                                            inputFondUrgenta.setText("${valoareFondUrgente}")
-//                                            inputObiectiv.setText("${valoareObiectiv}")
-//                                        }
-//
-//                                        alertDialog.setCancelable(false)
-//
-//                                        val btnOKDialog = dialogView.findViewById<Button>(R.id.btnOKEconomisire)
-//                                        btnOKDialog.setOnClickListener {
-//                                            val sumaFondUrgenta=inputFondUrgenta.text.toString()
-//                                            val sumaObiectiv = inputObiectiv.text.toString()
-//
-//                                            if (sumaObiectiv.isEmpty()) {
-//                                                Toast.makeText(requireContext(), "Introduceți o sumă validă pentru obiectiv", Toast.LENGTH_SHORT).show()
-//                                                return@setOnClickListener
-//                                            }
-//
-//                                            if (sumaFondUrgenta.isEmpty()) {
-//                                                Toast.makeText(requireContext(), "Introduceți o sumă validă pentru fond de urgență", Toast.LENGTH_SHORT).show()
-//                                                return@setOnClickListener
-//
-//                                            }
-//                                            if(sumaObiectiv.toDouble() + sumaFondUrgenta.toDouble()!=sumaBugetRamas){
-//                                                Toast.makeText(requireContext(), "Adunarea celor doua sume trebuie sa fie egala cu bugetul ramas.Va rugam introduceti sume valide!", Toast.LENGTH_SHORT).show()
-//                                                return@setOnClickListener
-//                                            }
-//
-//                                            if(sumaObiectiv.toDouble()>valoarePrimObiectiv){
-//                                                Toast.makeText(requireContext(), "Suma introdusa in obiectiv este mai mare decat valoarea obiectivului de ${valoarePrimObiectiv}", Toast.LENGTH_SHORT).show()
-//                                                return@setOnClickListener
-//                                            }
-//                                            bugetRamas.setText("Buget Ramas : 0.0")
-//
-//                                            fondDeUrgenta.setText("Fond de urgenta :"+ sumaFondUrgenta.toDouble().toString())
-//                                            alertDialog.dismiss()
-//
-//                                            if(sumaObiectiv.toDouble()==valoarePrimObiectiv){
-//                                                db.collection("Obiective")
-//                                                    .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
-//                                                    .get()
-//                                                    .addOnSuccessListener { documents ->
-//                                                        for (document in documents) {
-//                                                            val status = document.getString("status")
-//                                                            if (status.equals("Necompletat")) {
-//                                                                db.collection("Obiective")
-//                                                                    .document(document.id)
-//                                                                    .update("status", "Completat")
-//
-//                                                                break
-//                                                            }
-//                                                        }
-//                                                    }
-//
-//
-//                                            val dialogBuilder = AlertDialog.Builder(requireContext())
-//                                                    .setTitle("Felicitări!")
-//                                                    .setMessage("Ati reusit sa va atingeti obiectivul! Continuati tot asa!")
-//                                                    .setPositiveButton("OK") { dialog, _ ->
-//
-//                                                        dialog.dismiss()
-//                                                    }
-//                                                val alertDialog = dialogBuilder.create()
-//                                                alertDialog.show()
-//
-//                                            }
-//
-//
-//                                            if(sumaObiectiv.toDouble()<valoarePrimObiectiv){
-//
-//                                                val procentajObiectiv=((sumaObiectiv.toDouble() * 100)/valoarePrimObiectiv).toString()
-//
-//                                                procentObiectiv.setText("$procentajObiectiv" + "%")
-//                                                val dialogBuilder = AlertDialog.Builder(requireContext())
-//                                                    .setTitle("Felicitări!")
-//                                                    .setMessage("Ati reusit sa completati $procentajObiectiv% din obiectiv! Continuati tot asa!")
-//                                                    .setPositiveButton("OK") { dialog, _ ->
-//
-//                                                        dialog.dismiss()
-//                                                    }
-//                                                val alertDialog = dialogBuilder.create()
-//                                                alertDialog.show()
-//
-//                                            }
-//                                        }
-//                                    }
-//                                    .addOnFailureListener { exception ->
-//                                        Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-//                                    }
-//
-//                            }
-//                        }
-//                    }
                 }
 
             }
@@ -505,6 +469,33 @@ class AcasaFragment : Fragment() {
 
     }
 
+
+    private var totalFondUrgentaUpdated = 0.0
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val fondDeUrgenta= view?.findViewById<TextView>(R.id.popa_antonela_tv_fond_de_urgente)
+
+
+        db.collection("DateFinal")
+            .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                totalFondUrgentaUpdated = 0.0
+                for (document in documents) {
+                    val fondUrgentaBD = document.getString("fondUrgenta")?.toDouble()
+                    if (fondUrgentaBD != null) {
+                        totalFondUrgentaUpdated += fondUrgentaBD
+                    }
+                }
+                fondDeUrgenta?.setText("Fond de urgenta: " + totalFondUrgentaUpdated.toString())
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error getting documents", e)
+            }
+
+
+
+}
 
     private fun getCategoriiExistente() {
         db.collection("Bugete")
