@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -17,9 +16,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import eu.ase.ro.planificareabugetuluipersonal.util.SingletonList
+import eu.ase.ro.planificareabugetuluipersonal.util.CategoryManager
+
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AdaugaCheltuieliActivity : AppCompatActivity() {
     private lateinit var btnInapoiCheltuieli: Button
@@ -58,8 +59,8 @@ class AdaugaCheltuieliActivity : AppCompatActivity() {
     }
 
     private fun seteazaItemSpinner() {
-        val categorii = SingletonList.getList()
-        Log.d(ContentValues.TAG, "Categorii: $categorii")
+        val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val categorii = CategoryManager.getCategories(userId, this)
 
         if (categorii.isNotEmpty()) {
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categorii)

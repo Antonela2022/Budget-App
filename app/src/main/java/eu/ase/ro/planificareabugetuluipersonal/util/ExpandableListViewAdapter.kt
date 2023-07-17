@@ -20,6 +20,7 @@ class ExpandableListViewAdapter internal constructor(private val context:Context
     private var cheltuialaUpdateListener: OnUpdateListener? = null
     private var cheltuialaDeleteListener: OnDeleteListener? = null
     private var categorieDeleteListener: OnDeleteListener? = null
+    private lateinit var firebaseAuth: FirebaseAuth
     override fun getGroupCount(): Int {
         return listaBugete.size
     }
@@ -447,8 +448,11 @@ class ExpandableListViewAdapter internal constructor(private val context:Context
                             return@setOnClickListener
                         }
 
-                        val categorii = SingletonList.getList()
-                        Log.d(ContentValues.TAG,"Categorii: ${categorii}")
+                        firebaseAuth = FirebaseAuth.getInstance()
+
+                        val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                        val categorii = CategoryManager.getCategories(userId, v.context)
+
                         if(!categorii.contains(categorie)){
                             Toast.makeText(v.context, "Vă rugăm să introduceți o categorie validă.", Toast.LENGTH_SHORT).show()
                             return@setOnClickListener

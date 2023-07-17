@@ -16,7 +16,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import eu.ase.ro.planificareabugetuluipersonal.util.SingletonList
+import eu.ase.ro.planificareabugetuluipersonal.util.CategoryManager
+
 
 class SeteazaBugetActivity : AppCompatActivity() {
     private lateinit var btnInapoiObiective:Button
@@ -108,8 +109,9 @@ class SeteazaBugetActivity : AppCompatActivity() {
 
                     categoriiTotale.addAll(categoriiExistente)
                     categoriiTotale.add(selectedValue)
-                    SingletonList.setList(categoriiTotale)
-                    Log.d(TAG,"Categorii totale: $categoriiTotale")
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                    CategoryManager.saveCategories(categoriiExistente, userId,this)
+
 
                     val Intent= Intent(this,MainActivity::class.java)
                     startActivity(Intent)

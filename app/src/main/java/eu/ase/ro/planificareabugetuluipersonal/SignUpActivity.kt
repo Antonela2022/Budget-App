@@ -24,12 +24,7 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         val db = Firebase.firestore
-        val emailPattern="[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
-//        binding.textView.setOnClickListener {
-//            val intent = Intent(this, SignInActivity::class.java)
-//            startActivity(intent)
-//        }
         binding.signUpBtnInregistrare.setOnClickListener {
             val email = binding.signUpTietEmail.text.toString().trim()
             val pass = binding.signUpTietParola.text.toString().trim()
