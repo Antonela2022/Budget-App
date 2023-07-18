@@ -195,18 +195,7 @@ class AcasaFragment : Fragment() {
                         if (!isDialogShown ) {
                         var valoarePrimObiectiv=0.0
                         if (sumaBugetRamas != null) {
-                            if(sumaBugetRamas<=0){
-                                val alertDialogBuilder = AlertDialog.Builder(requireContext())
-                                alertDialogBuilder.setTitle("Atenție")
-                                alertDialogBuilder.setMessage("Nu ai reușit să economisești luna aceasta.")
-                                alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss() // Închide fereastra de dialog
-                                }
-                                val alertDialog = alertDialogBuilder.create()
-                                alertDialog.show()
 
-                            }
-                            else{
                                 var esteCompletat=false
                                 db.collection("Obiective")
                                     .whereEqualTo("idUser", firebaseAuth.currentUser?.uid.toString())
@@ -235,7 +224,6 @@ class AcasaFragment : Fragment() {
                                         val valoareFondUrgente=0.20*sumaBugetRamas
                                         val valoareObiectiv=0.80*sumaBugetRamas
 
-                                        Toast.makeText(requireContext(),"E bine ${ sumaBugetRamas}",Toast.LENGTH_SHORT).show()
 
                                         val bugeteNedepasite = ArrayList<String>()
                                         val bugeteDepasite = ArrayList<String>()
@@ -261,9 +249,6 @@ class AcasaFragment : Fragment() {
 
                                                     }
                                                 }
-                                                Toast.makeText(requireContext(),"Nedepasite ${ bugeteNedepasite}",Toast.LENGTH_SHORT).show()
-                                                Toast.makeText(requireContext(),"Depasite ${ bugeteDepasite}",Toast.LENGTH_SHORT).show()
-
 
 
                                                 if(bugeteNedepasite.isEmpty()) {
@@ -277,16 +262,23 @@ class AcasaFragment : Fragment() {
                                                     message="Ati reusit sa va mentineti in buget pentru categoriile :"+ compNedep +", dar ati depasit bugetul pentru categoriile "+compDepasite+"Va sugeram o mai mare atentie asupra cheltuielilor ce tin de categoriile depasite!"
                                                 }
 
+                                                if(sumaBugetRamas<=0){
+
+                                                    message="Din pacate luna aceasta ati depasit toate bugetele si nu ati reusit sa economisiti.Va recomandam sa aveti o mai mare atentie asupra cheltuielilor pe care le faceti!."
+
+                                                }else{
+                                                    message="Felicitari! Ati reusit sa economisiti ${sumaBugetRamas} RON" + "${message}" + " In total ati cheltuit ${sumaCheltuieli} RON. "+"\n\n"+
+                                                            "Mai jos trebuie sa alegeti cat doriti sa adaugati in fond de urgenta " +
+                                                            "si cat doriti sa adaugati in obiectiv. Va reamintim ca este de preferat" +
+                                                            " ca macar 20%  din bugetul ramas sa il adaugati in fond de urgenta "
+                                                }
                                                 val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.succes_dialog_economisire, null)
 
                                                 val builder = AlertDialog.Builder(requireContext())
                                                     .setView(dialogView)
                                                     .setTitle("Rezumat!")
 
-                                                    .setMessage("Felicitari! Ati reusit sa economisiti ${sumaBugetRamas} RON" + "${message}" + " In total ati cheltuit ${sumaCheltuieli} RON. "+"\n\n"+
-                                                            "Mai jos trebuie sa alegeti cat doriti sa adaugati in fond de urgenta " +
-                                                            "si cat doriti sa adaugati in obiectiv. Va reamintim ca este de preferat" +
-                                                            " ca macar 20%  din bugetul ramas sa il adaugati in fond de urgenta ")
+                                                    .setMessage("${message} ")
 
 
                                                 val alertDialog = builder.show()
@@ -500,7 +492,7 @@ class AcasaFragment : Fragment() {
                                         Log.w(ContentValues.TAG, "Error getting documents: ", exception)
                                     }
                               }
-                          }
+
                        }
                     }
                 }
